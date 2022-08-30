@@ -103,8 +103,6 @@ require('packer').startup(function()
     use 'idanarye/breeze.vim'
     -- Закрывает автоматом html и xml тэги. Пишешь <h1> и он автоматом закроется </h1>
     use 'alvan/vim-closetag'
-    -- Подсвечивает #ffffff
-    -- use 'ap/vim-css-color'
 
     -----------------------------------------------------------
     -- РАЗНОЕ

@@ -1,7 +1,7 @@
 -----------------------------------------------------------
 -- Импорт модулей lua
 -----------------------------------------------------------
-require('plugins')
-require('keymaps')
-require('settings')
-require('auto_dark_mode')
+require("plugins")
+require("keymaps")
+require("settings")
+require("auto_dark_mode")

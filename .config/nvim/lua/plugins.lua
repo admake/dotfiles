@@ -37,9 +37,6 @@ require("packer").startup(function()
 	use({
 		"kyazdani42/nvim-tree.lua",
 		requires = "kyazdani42/nvim-web-devicons",
-		config = function()
-			require("nvim-tree").setup({})
-		end,
 	})
 	-- Навигация внутри файла по классам и функциям
 	use("majutsushi/tagbar")
@@ -143,6 +140,7 @@ require("packer").startup(function()
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")
+	use("spinks/vim-leader-guide")
 end)
 
 require("mason").setup()

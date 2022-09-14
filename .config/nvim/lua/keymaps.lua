@@ -1,5 +1,10 @@
-local mapx = require"mapx"
+local mapx = require("mapx")
 local nnoremap = mapx.nnoremap
+
+-- Space Leader
+vim.g.mapleader = "<Space>"
+vim.keymap.set("n", "<leader>", "<cmd><c-u>LeaderGuide '<Space>'<CR>", { silent = true })
+vim.keymap.set("v", "<leader>", "<cmd><c-u>LeaderGuideVisual '<Space>'<CR>", { silent = true })
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -34,7 +39,6 @@ on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-	-- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wl", function()
@@ -72,9 +76,18 @@ end
 
 -- telescope
 nnoremap("<c-p>", "<cmd>lua require('telescope.builtin').find_files({hidden=true})<cr>")
-nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
-nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
-nnoremap("<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>")
+vim.keymap.set("n", "<leader>ff", function()
+	require("telescope.builtin").find_files({ hidden = true })
+end)
+vim.keymap.set("n", "<space>fg", function()
+	require("telescope.builtin").live_grep()
+end)
+vim.keymap.set("n", "<space>fb", function()
+	require("telescope.builtin").buffers()
+end)
+vim.keymap.set("n", "<space>fh", function()
+	require("telescope.builtin").help_tags()
+end)
 
 -- -- formatting
 -- nnoremap("<leader>f", ":Format<CR>", "<silent>")

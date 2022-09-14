@@ -10,9 +10,6 @@ g.translate_target = "en"
 g.tagbar_compact = 1
 g.tagbar_sort = 0
 
--- Space Leader
-g.mapleader = ";"
-
 -----------------------------------------------------------
 -- Главные
 -----------------------------------------------------------
@@ -25,6 +22,13 @@ opt.relativenumber = true -- Вкл. относительную нумераци
 opt.undofile = true -- Возможность отката назад
 opt.splitright = true -- vertical split вправо
 opt.splitbelow = true -- horizontal split вниз
+-- auto-reload files when modified externally
+-- https://unix.stackexchange.com/a/383044
+vim.o.autoread = true
+api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+	command = "if mode() != 'c' | checktime | endif",
+	pattern = { "*" },
+})
 -----------------------------------------------------------
 -- Цветовая схема
 -----------------------------------------------------------
@@ -79,14 +83,24 @@ augroup end
 require("bufferline").setup({
 	options = {
 		diagnostics = "nvim_lsp",
-        show_tab_indicators = true,
+		show_tab_indicators = true,
 		-- diagnostics_indicator = function(count, level, diagnostics_dict, context)
 		-- 	local icon = level:match("error") and "✘ " or "▲ "
 		-- 	return " " .. icon .. count
 		-- end,
 	},
 })
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+	diagnostics = {
+		enable = true,
+	},
+	filters = {
+		dotfiles = true,
+	},
+	git = {
+		ignore = true,
+	},
+})
 require("cmp-npm").setup({})
 
 -- nvim-cmp supports additional completion capabilities
@@ -398,22 +412,24 @@ vim.diagnostic.config({
 
 -- local port, token = get_prettierd_env("/Users/admakeye/.prettierd")
 
+vim.env.PRETTIERD_LOCAL_PRETTIER_ONLY = 1
+
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 require("formatter").setup({
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
-	log_level = vim.log.levels.INFO,
+	log_level = vim.log.levels.DEBUG,
 	-- All formatter configurations are opt-in
-	-- ❯ echo "$(cat ~/.prettierd | cut -d" " -f2) util.get_current_buffer_file_path()" | cat - util.get_current_buffer_file_path() | nc localhost $(cat ~/.prettierd | cut -d" " -f1) | sponge util.get_current_buffer_file_path()
 	filetype = {
-		yaml = { require("formatter.defaults").prettier },
-		json = { require("formatter.defaults").prettier },
-		javascript = { require("formatter.defaults").prettier },
-		typescript = { require("formatter.defaults").prettier },
-		markdown = { require("formatter.defaults").prettier },
-		lua = { require("formatter.defaults").stylua },
+		yaml = { require("formatter.defaults.prettierd") },
+		json = { require("formatter.defaults.prettierd") },
+		typescript = { require("formatter.defaults.prettierd") },
+		javascript = { require("formatter.defaults.prettierd") },
+		markdown = { require("formatter.defaults.prettierd") },
+		lua = { require("formatter.filetypes.lua").stylua },
 	},
+	-- echo "$(cat ~/.prettierd | cut -d" " -f2) util.get_current_buffer_file_path()" | cat - util.get_current_buffer_file_path() | nc localhost $(cat ~/.prettierd | cut -d" " -f1) | sponge util.get_current_buffer_file_path()
 })
 
 -- Format on save

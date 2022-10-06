@@ -30,6 +30,9 @@ require("packer").startup(function()
 	-- GitGutters
 	use("airblade/vim-gitgutter")
 
+	-- GitBlame
+	use("APZelos/blamer.nvim")
+
 	-----------------------------------------------------------
 	-- НАВИГАЦИЯ
 	-----------------------------------------------------------
@@ -94,7 +97,7 @@ require("packer").startup(function()
 	-----------------------------------------------------------
 	-- HTML и CSS
 	-----------------------------------------------------------
-	-- Подсвечивает закрывающий и откры. тэг. Если, где-то что-то не закрыто, то не подсвечивает.
+	-- Подсвечивает закрывающий и открыт тэг. Если, где-то что-то не закрыто, то не подсвечивает.
 	use("idanarye/breeze.vim")
 	-- Закрывает автоматом html и xml тэги. Пишешь <h1> и он автоматом закроется </h1>
 	use("alvan/vim-closetag")
@@ -140,7 +143,38 @@ require("packer").startup(function()
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")
-	use("spinks/vim-leader-guide")
+	-- use({
+	-- 	"spinks/vim-leader-guide",
+	-- 	config = function()
+	-- 		require("vim-leader-guide").setup()
+	-- 	end,
+	-- })
+	-- Jest runner
+	use("David-Kunz/jester")
+	-- Smooth scroll
+	use("karb94/neoscroll.nvim")
+	-- numb navigate
+	use("nacro90/numb.nvim")
+	-- multi cursor Ctrl-D
+	use({ "mg979/vim-visual-multi", branch = "master" })
+	-- documentation generator
+	use({
+		"kkoomen/vim-doge",
+		run = ":call doge#install()",
+	})
+	-- diagnostic list etc
+	-- Lua
+	use({
+		"folke/trouble.nvim",
+		requires = "kyazdani42/nvim-web-devicons",
+		config = function()
+			require("trouble").setup({
+				-- your configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			})
+		end,
+	})
 end)
 
 require("mason").setup()

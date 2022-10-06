@@ -7,8 +7,8 @@ local opt = vim.opt -- global/buffer/windows-scoped options
 g.translate_source = "ru"
 g.translate_target = "en"
 -- Компактный вид у тагбара и Отк. сортировка по имени у тагбара
-g.tagbar_compact = 1
-g.tagbar_sort = 0
+-- g.tagbar_compact = 1
+-- g.tagbar_sort = 0
 
 -----------------------------------------------------------
 -- Главные
@@ -22,6 +22,7 @@ opt.relativenumber = true -- Вкл. относительную нумераци
 opt.undofile = true -- Возможность отката назад
 opt.splitright = true -- vertical split вправо
 opt.splitbelow = true -- horizontal split вниз
+opt.mouse = "a" -- включаем мышь
 -- auto-reload files when modified externally
 -- https://unix.stackexchange.com/a/383044
 vim.o.autoread = true
@@ -77,6 +78,9 @@ augroup end
 ]],
 	false
 )
+
+-- GitBlame enable
+g.blamer_enabled = 1
 
 -----------------------------------------------------------
 -- Инициализация плагинов
@@ -356,8 +360,8 @@ sign({
 -- diagnostic config
 -----------------------------------------------------------
 vim.diagnostic.config({
-	-- virtual_text = false,
-	-- severity_sort = true,
+	virtual_text = false,
+	severity_sort = true,
 	-- float = {
 	--     border = 'rounded',
 	--     source = 'always',
@@ -440,3 +444,20 @@ api.nvim_create_autocmd("BufWritePost", {
 	command = ":FormatWrite",
 	group = fmtGroup,
 })
+
+-- Jest
+require("jester").setup({
+	cmd = "npm test --",
+	-- cmd = "npm test -- -t '$result' -- $file",
+	-- path_to_jest_run = "jest",
+	-- path_to_jest_debug = "./node_modules/bin/jest",
+})
+
+-- Smooth scroll
+-- require("neoscroll").setup({
+-- 	mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+-- 	easing_function = "sine",
+-- 	-- easing_function = "quintic",
+-- })
+
+require("numb").setup()

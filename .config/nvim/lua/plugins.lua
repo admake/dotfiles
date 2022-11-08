@@ -23,7 +23,7 @@ require("packer").startup(function()
 	-- Табы вверху
 	use({
 		"akinsho/bufferline.nvim",
-		tag = "v2.*",
+		tag = "v3.*",
 		requires = "kyazdani42/nvim-web-devicons",
 	})
 
@@ -165,7 +165,7 @@ require("packer").startup(function()
 	-- Jest runner
 	-- use("David-Kunz/jester")
 	-- Smooth scroll
-	-- use("karb94/neoscroll.nvim")
+	use("karb94/neoscroll.nvim")
 	-- numb navigate
 	use("nacro90/numb.nvim")
 	-- documentation generator

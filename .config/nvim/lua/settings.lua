@@ -16,6 +16,7 @@ g.translate_target = "en"
 opt.colorcolumn = "120" -- Разделитель на 80 символов
 opt.cursorline = true -- Подсветка строки с курсором
 opt.spelllang = { "en_us", "ru" } -- Словари рус eng
+opt.swapfile = false -- Выключить swapfiles
 opt.number = true -- Включаем нумерацию строк
 opt.relativenumber = true -- Вкл. относительную нумерацию строк
 -- opt.so=999                          -- Курсор всегда в центре экрана
@@ -99,16 +100,35 @@ vim.diagnostic.config({
 -----------------------------------------------------------
 -- Инициализация плагинов
 -----------------------------------------------------------
-require("impatient").enable_profile()
+-- require("impatient").enable_profile()
 
 require("bufferline").setup({
 	options = {
 		diagnostics = "nvim_lsp",
-		show_tab_indicators = true,
-		-- diagnostics_indicator = function(count, level, diagnostics_dict, context)
+		-- show_tab_indicators = true,
+		-- show_buffer_icons = true,
+		-- show_buffer_close_icons = true,
+		-- show_buffer_default_icon = true,
+		-- color_icons = true,
+		-- diagnostics_indicator = function(count, level)
 		-- 	local icon = level:match("error") and "✘ " or "▲ "
 		-- 	return " " .. icon .. count
 		-- end,
+		-- hover = {
+		-- 	enabled = true,
+		-- 	delay = 200,
+		-- 	reveal = { "close" },
+		-- },
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = function()
+					return vim.fn.getcwd()
+				end,
+				highlight = "Directory",
+				text_align = "left",
+			},
+		},
 	},
 })
 
@@ -476,11 +496,11 @@ api.nvim_create_autocmd("BufWritePost", {
 -- })
 
 -- Smooth scroll
--- require("neoscroll").setup({
--- 	mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
--- 	easing_function = "sine",
--- 	-- easing_function = "quintic",
--- })
+require("neoscroll").setup({
+	mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+	easing_function = "sine",
+	-- easing_function = "quintic",
+})
 
 -- numb navigate preview
 require("numb").setup()

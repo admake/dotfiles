@@ -31,7 +31,7 @@ require("packer").startup(function()
 	use("airblade/vim-gitgutter")
 
 	-- GitBlame
-	use("APZelos/blamer.nvim")
+	-- use("APZelos/blamer.nvim")
 
 	-----------------------------------------------------------
 	-- НАВИГАЦИЯ
@@ -41,8 +41,10 @@ require("packer").startup(function()
 		"kyazdani42/nvim-tree.lua",
 		requires = "kyazdani42/nvim-web-devicons",
 	})
+
 	-- Навигация внутри файла по классам и функциям
 	use("majutsushi/tagbar")
+
 	-- Замена fzf и ack
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -89,18 +91,29 @@ require("packer").startup(function()
 			"nvim-lua/plenary.nvim",
 		},
 	})
-	--- Автодополнлялка к файловой системе
+	-- Автодополнялка к файловой системе
 	use("hrsh7th/cmp-path")
 	-- Snippets plugin
 	use("L3MON4D3/LuaSnip")
 
 	-----------------------------------------------------------
+	-- Refactoring
+	-----------------------------------------------------------
+	use({
+		"ThePrimeagen/refactoring.nvim",
+		requires = {
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+	})
+
+	-----------------------------------------------------------
 	-- HTML и CSS
 	-----------------------------------------------------------
 	-- Подсвечивает закрывающий и открыт тэг. Если, где-то что-то не закрыто, то не подсвечивает.
-	use("idanarye/breeze.vim")
+	-- use("idanarye/breeze.vim")
 	-- Закрывает автоматом html и xml тэги. Пишешь <h1> и он автоматом закроется </h1>
-	use("alvan/vim-closetag")
+	-- use("alvan/vim-closetag")
 
 	-----------------------------------------------------------
 	-- РАЗНОЕ
@@ -150,18 +163,16 @@ require("packer").startup(function()
 	-- 	end,
 	-- })
 	-- Jest runner
-	use("David-Kunz/jester")
+	-- use("David-Kunz/jester")
 	-- Smooth scroll
-	use("karb94/neoscroll.nvim")
+	-- use("karb94/neoscroll.nvim")
 	-- numb navigate
 	use("nacro90/numb.nvim")
-	-- multi cursor Ctrl-D
-	use({ "mg979/vim-visual-multi", branch = "master" })
 	-- documentation generator
-	use({
-		"kkoomen/vim-doge",
-		run = ":call doge#install()",
-	})
+	-- use({
+	-- 	"kkoomen/vim-doge",
+	-- 	run = ":call doge#install()",
+	-- })
 	-- diagnostic list etc
 	-- Lua
 	use({
@@ -175,6 +186,56 @@ require("packer").startup(function()
 			})
 		end,
 	})
+
+	-- Diagnostics Code Action Menu
+	use({
+		"weilbith/nvim-code-action-menu",
+		cmd = "CodeActionMenu",
+		config = function()
+			require("code_action_menu")
+		end,
+	})
+
+	-- Diagnostics bulb
+	use({
+		"kosayoda/nvim-lightbulb",
+		requires = "antoinemadec/FixCursorHold.nvim",
+	})
+
+	-- Rooter отвечает за авто рут открытого проекта
+	use("airblade/vim-rooter")
+
+	-- Window auto focus and navigate
+	-- use({
+	-- 	"beauwilliams/focus.nvim",
+	-- 	config = function()
+	-- 		require("focus").setup()
+	-- 	end,
+	-- })
+	-- Or lazy load with `module` option. See further down for info on how to lazy load when using FocusSplit commands
+	-- Or lazy load this plugin by creating an arbitrary command using the cmd option in packer.nvim
+	-- use { 'beauwilliams/focus.nvim', cmd = { "FocusSplitNicely", "FocusSplitCycle" }, module = "focus",
+	--     config = function()
+	--         require("focus").setup({hybridnumber = true})
+	--     end
+	-- }
+
+	-- Multiple cursors
+	-- use("terryma/vim-multiple-cursors")
+
+	-- multi cursor Ctrl-D
+	-- use({ "mg979/vim-visual-multi", branch = "master" })
+
+	-- Is using a standard Neovim install, i.e. built from source or using a
+	-- provided appimage.
+	use("lewis6991/impatient.nvim")
+
+	-- Startup time
+	use("dstein64/vim-startuptime")
+	-- use("tweekmonster/startuptime.vim")
+
+	-- LateX Highlight
+	-- use("jbyuki/nabla.vim")
 end)
 
 require("mason").setup()

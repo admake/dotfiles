@@ -99,6 +99,17 @@ vim.keymap.set("n", "<leader>fh", function()
 end)
 
 -----------------------------------------------------------
+-- Refactoring Mappings
+-----------------------------------------------------------
+-- prompt for a refactor to apply when the remap is triggered
+vim.keymap.set(
+	"v",
+	"<leader>rr",
+	":lua require('refactoring').select_refactor()<CR>",
+	{ noremap = true, silent = true, expr = false }
+)
+
+-----------------------------------------------------------
 -- -- formatting
 -----------------------------------------------------------
 nnoremap("<leader>F", ":FormatWrite<CR>", "<silent>")
@@ -106,18 +117,18 @@ nnoremap("<leader>F", ":FormatWrite<CR>", "<silent>")
 -----------------------------------------------------------
 -- jest runner
 -----------------------------------------------------------
--- Run nearest test(s) under the cursor
-vim.keymap.set("n", "<leader>tt", function()
-	require("jester").run()
-end)
--- Run current file
-vim.keymap.set("n", "<leader>tf", function()
-	require("jester").run_file()
-end)
--- Run last test(s)
-vim.keymap.set("n", "<leader>tl", function()
-	require("jester").run_last()
-end)
+-- -- Run nearest test(s) under the cursor
+-- vim.keymap.set("n", "<leader>tt", function()
+-- 	require("jester").run()
+-- end)
+-- -- Run current file
+-- vim.keymap.set("n", "<leader>tf", function()
+-- 	require("jester").run_file()
+-- end)
+-- -- Run last test(s)
+-- vim.keymap.set("n", "<leader>tl", function()
+-- 	require("jester").run_last()
+-- end)
 
 -----------------------------------------------------------
 -- bufferline

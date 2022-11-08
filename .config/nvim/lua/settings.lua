@@ -26,10 +26,10 @@ opt.mouse = "a" -- включаем мышь
 -- auto-reload files when modified externally
 -- https://unix.stackexchange.com/a/383044
 vim.o.autoread = true
-api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-	command = "if mode() != 'c' | checktime | endif",
-	pattern = { "*" },
-})
+-- api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+-- 	command = "if mode() != 'c' | checktime | endif",
+-- 	pattern = { "*" },
+-- })
 -----------------------------------------------------------
 -- Цветовая схема
 -----------------------------------------------------------
@@ -52,7 +52,7 @@ opt.shiftwidth = 4 -- shift 4 spaces when tab
 opt.tabstop = 4 -- 1 tab == 4 spaces
 opt.smartindent = true -- autoindent new lines
 -- don't auto commenting new lines
-cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
+-- cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
 -- remove line lenght marker for selected filetypes
 -- cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
 -- 2 spaces for selected filetypes
@@ -80,10 +80,27 @@ augroup end
 )
 
 -- GitBlame enable
-g.blamer_enabled = 1
+-- g.blamer_enabled = 1
+
+local _border = "single"
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = _border,
+})
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+	border = _border,
+})
+
+vim.diagnostic.config({
+	float = { border = _border },
+})
 
 -----------------------------------------------------------
 -- Инициализация плагинов
+-----------------------------------------------------------
+require("impatient").enable_profile()
+
 require("bufferline").setup({
 	options = {
 		diagnostics = "nvim_lsp",
@@ -94,6 +111,7 @@ require("bufferline").setup({
 		-- end,
 	},
 })
+
 require("nvim-tree").setup({
 	diagnostics = {
 		enable = true,
@@ -105,11 +123,15 @@ require("nvim-tree").setup({
 		ignore = true,
 	},
 })
+
+require("refactoring").setup({})
+
 require("cmp-npm").setup({})
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+-- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 vim.o.completeopt = "menuone,noselect"
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- luasnip setup
@@ -423,7 +445,7 @@ require("formatter").setup({
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
-	log_level = vim.log.levels.DEBUG,
+	-- log_level = vim.log.levels.DEBUG,
 	-- All formatter configurations are opt-in
 	filetype = {
 		yaml = { require("formatter.defaults.prettierd") },
@@ -446,12 +468,12 @@ api.nvim_create_autocmd("BufWritePost", {
 })
 
 -- Jest
-require("jester").setup({
-	cmd = "npm test --",
-	-- cmd = "npm test -- -t '$result' -- $file",
-	-- path_to_jest_run = "jest",
-	-- path_to_jest_debug = "./node_modules/bin/jest",
-})
+-- require("jester").setup({
+-- 	cmd = "npm test --",
+-- 	cmd = "npm test -- -t '$result' -- $file",
+-- 	path_to_jest_run = "jest",
+-- 	path_to_jest_debug = "./node_modules/bin/jest",
+-- })
 
 -- Smooth scroll
 -- require("neoscroll").setup({
@@ -460,4 +482,8 @@ require("jester").setup({
 -- 	-- easing_function = "quintic",
 -- })
 
+-- numb navigate preview
 require("numb").setup()
+
+-- bulb code actions like vscode
+require("nvim-lightbulb").setup({ autocmd = { enabled = true } })

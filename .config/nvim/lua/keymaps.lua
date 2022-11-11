@@ -115,16 +115,16 @@ vim.keymap.set(
 nnoremap("<leader>F", ":FormatWrite<CR>", "<silent>")
 
 -----------------------------------------------------------
--- jest runner
+-- test runner
 -----------------------------------------------------------
 -- -- Run nearest test(s) under the cursor
--- vim.keymap.set("n", "<leader>tt", function()
--- 	require("jester").run()
--- end)
+vim.keymap.set("n", "<leader>tt", function()
+	require("neotest").run.run()
+end)
 -- -- Run current file
--- vim.keymap.set("n", "<leader>tf", function()
--- 	require("jester").run_file()
--- end)
+vim.keymap.set("n", "<leader>tf", function()
+	require("neotest").run.run(vim.fn.expand("%"))
+end)
 -- -- Run last test(s)
 -- vim.keymap.set("n", "<leader>tl", function()
 -- 	require("jester").run_last()

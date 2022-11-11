@@ -15,7 +15,7 @@ require("packer").startup(function()
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = {
-			"kyazdani42/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 			opt = true,
 		},
 	})
@@ -24,7 +24,7 @@ require("packer").startup(function()
 	use({
 		"akinsho/bufferline.nvim",
 		tag = "v3.*",
-		requires = "kyazdani42/nvim-web-devicons",
+		requires = "nvim-tree/nvim-web-devicons",
 	})
 
 	-- GitGutters
@@ -38,8 +38,8 @@ require("packer").startup(function()
 	-----------------------------------------------------------
 	-- Файловый менеджер
 	use({
-		"kyazdani42/nvim-tree.lua",
-		requires = "kyazdani42/nvim-web-devicons",
+		"nvim-tree/nvim-tree.lua",
+		requires = "nvim-tree/nvim-web-devicons",
 	})
 
 	-- Навигация внутри файла по классам и функциям
@@ -152,7 +152,10 @@ require("packer").startup(function()
 	-- Для кеймапов
 	use("b0o/mapx.nvim")
 
-	use("tpope/vim-fugitive")
+	-- вместо fugitive
+	use("lewis6991/gitsigns.nvim")
+
+	-- use("tpope/vim-fugitive")
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")
@@ -165,7 +168,7 @@ require("packer").startup(function()
 	-- Jest runner
 	-- use("David-Kunz/jester")
 	-- Smooth scroll
-	use("karb94/neoscroll.nvim")
+	-- use("karb94/neoscroll.nvim")
 	-- numb navigate
 	use("nacro90/numb.nvim")
 	-- documentation generator
@@ -177,7 +180,7 @@ require("packer").startup(function()
 	-- Lua
 	use({
 		"folke/trouble.nvim",
-		requires = "kyazdani42/nvim-web-devicons",
+		requires = "nvim-tree/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({
 				-- your configuration comes here
@@ -236,6 +239,17 @@ require("packer").startup(function()
 
 	-- LateX Highlight
 	-- use("jbyuki/nabla.vim")
+
+	-- Test Runner
+	use({
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"haydenmeade/neotest-jest",
+		},
+	})
 end)
 
 require("mason").setup()

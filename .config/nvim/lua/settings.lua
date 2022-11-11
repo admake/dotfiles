@@ -10,6 +10,10 @@ g.translate_target = "en"
 -- g.tagbar_compact = 1
 -- g.tagbar_sort = 0
 
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -----------------------------------------------------------
 -- Главные
 -----------------------------------------------------------
@@ -93,44 +97,11 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 	border = _border,
 })
 
-vim.diagnostic.config({
-	float = { border = _border },
-})
-
 -----------------------------------------------------------
 -- Инициализация плагинов
 -----------------------------------------------------------
+require("gitsigns").setup()
 -- require("impatient").enable_profile()
-
-require("bufferline").setup({
-	options = {
-		diagnostics = "nvim_lsp",
-		-- show_tab_indicators = true,
-		-- show_buffer_icons = true,
-		-- show_buffer_close_icons = true,
-		-- show_buffer_default_icon = true,
-		-- color_icons = true,
-		-- diagnostics_indicator = function(count, level)
-		-- 	local icon = level:match("error") and "✘ " or "▲ "
-		-- 	return " " .. icon .. count
-		-- end,
-		-- hover = {
-		-- 	enabled = true,
-		-- 	delay = 200,
-		-- 	reveal = { "close" },
-		-- },
-		offsets = {
-			{
-				filetype = "NvimTree",
-				text = function()
-					return vim.fn.getcwd()
-				end,
-				highlight = "Directory",
-				text_align = "left",
-			},
-		},
-	},
-})
 
 require("nvim-tree").setup({
 	diagnostics = {
@@ -147,9 +118,7 @@ require("nvim-tree").setup({
 require("refactoring").setup({})
 
 require("cmp-npm").setup({})
-
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- nvim-cmp supports additional completion capabilities local capabilities = vim.lsp.protocol.make_client_capabilities()
 -- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 vim.o.completeopt = "menuone,noselect"
@@ -401,16 +370,24 @@ sign({
 -----------------------------------------------------------
 -- diagnostic config
 -----------------------------------------------------------
+local neotest_ns = vim.api.nvim_create_namespace("neotest")
 vim.diagnostic.config({
-	virtual_text = false,
 	severity_sort = true,
+	float = { border = _border },
+	-- virtual_text = false,
+	virtual_text = {
+		format = function(diagnostic)
+			local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+			return message
+		end,
+	},
 	-- float = {
 	--     border = 'rounded',
 	--     source = 'always',
 	--     header = '',
 	--     prefix = ''
 	-- }
-})
+}, neotest_ns)
 
 -- defaults
 -- {
@@ -421,6 +398,37 @@ vim.diagnostic.config({
 --     severity_sort = false,
 --     float = true
 -- }
+
+require("bufferline").setup({})
+-- require("bufferline").setup({
+-- 	options = {
+-- 		diagnostics = "nvim_lsp",
+-- 		show_tab_indicators = true,
+-- 		show_buffer_icons = true,
+-- 		show_buffer_close_icons = true,
+-- 		show_buffer_default_icon = true,
+-- 		color_icons = true,
+-- 		diagnostics_indicator = function(count, level)
+-- 			local icon = level:match("error") and "✘ " or "▲ "
+-- 			return " " .. icon .. count
+-- 		end,
+-- 		hover = {
+-- 			enabled = true,
+-- 			delay = 200,
+-- 			reveal = { "close" },
+-- 		},
+-- 		offsets = {
+-- 			{
+-- 				filetype = "NvimTree",
+-- 				text = function()
+-- 					return vim.fn.getcwd()
+-- 				end,
+-- 				highlight = "Directory",
+-- 				text_align = "left",
+-- 			},
+-- 		},
+-- 	},
+-- })
 
 -----------------------------------------------------------
 -- formatting
@@ -496,10 +504,22 @@ api.nvim_create_autocmd("BufWritePost", {
 -- })
 
 -- Smooth scroll
-require("neoscroll").setup({
-	mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-	easing_function = "sine",
-	-- easing_function = "quintic",
+-- require("neoscroll").setup({
+-- 	mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+-- 	easing_function = "sine",
+-- 	-- easing_function = "quintic",
+-- })
+
+-- Test Runner
+require("neotest").setup({
+	adapters = {
+		require("neotest-jest")({
+			jestCommand = "npm test --",
+			cwd = function(path)
+				return vim.fn.getcwd()
+			end,
+		}),
+	},
 })
 
 -- numb navigate preview

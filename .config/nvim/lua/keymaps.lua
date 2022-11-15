@@ -13,6 +13,9 @@ vim.g.maplocalleader = " "
 -- vim.keymap.set("v", "<leader>", "<cmd>LeaderGuideVisual '<Space>'<CR>", { silent = true })
 
 -- Mappings.
+
+vim.keymap.set("n", "<leader>nh", ":nohl<CR>")
+
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = {
 	noremap = true,
@@ -97,6 +100,9 @@ end)
 vim.keymap.set("n", "<leader>fh", function()
 	require("telescope.builtin").help_tags()
 end)
+
+-- NvimTreeToggle
+nnoremap("<leader>b", ":NvimTreeToggle<CR>", "<silent>")
 
 -----------------------------------------------------------
 -- Refactoring Mappings

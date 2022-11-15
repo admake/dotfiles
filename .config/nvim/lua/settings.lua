@@ -19,22 +19,36 @@ vim.g.loaded_netrwPlugin = 1
 -----------------------------------------------------------
 opt.colorcolumn = "120" -- Разделитель на 80 символов
 opt.cursorline = true -- Подсветка строки с курсором
+
 opt.spelllang = { "en_us", "ru" } -- Словари рус eng
+
 opt.swapfile = false -- Выключить swapfiles
+
 opt.number = true -- Включаем нумерацию строк
 opt.relativenumber = true -- Вкл. относительную нумерацию строк
--- opt.so=999                          -- Курсор всегда в центре экрана
+-- opt.so=999             -- Курсор всегда в центре экрана
+
 opt.undofile = true -- Возможность отката назад
+
 opt.splitright = true -- vertical split вправо
 opt.splitbelow = true -- horizontal split вниз
+
 opt.mouse = "a" -- включаем мышь
 -- auto-reload files when modified externally
 -- https://unix.stackexchange.com/a/383044
 vim.o.autoread = true
--- api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
--- 	command = "if mode() != 'c' | checktime | endif",
--- 	pattern = { "*" },
--- })
+api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+	command = "if mode() != 'c' | checktime | endif",
+	pattern = { "*" },
+})
+
+-- search
+opt.ignorecase = true
+opt.smartcase = true
+
+-- backspace
+opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+
 -----------------------------------------------------------
 -- Цветовая схема
 -----------------------------------------------------------
@@ -45,9 +59,10 @@ require("lualine").setup({
 		theme = "onenord",
 	},
 })
+
 -----------------------------------------------------------
 -- Табы и отступы
------------------------------------------------------------
+---------------------------------------------------------
 cmd([[
 filetype indent plugin on
 syntax enable
@@ -56,23 +71,14 @@ opt.expandtab = true -- use spaces instead of tabs
 opt.shiftwidth = 4 -- shift 4 spaces when tab
 opt.tabstop = 4 -- 1 tab == 4 spaces
 opt.smartindent = true -- autoindent new lines
--- don't auto commenting new lines
--- cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
--- remove line lenght marker for selected filetypes
--- cmd [[autocmd FileType text,markdown,html,xhtml,javascript setlocal cc=0]]
--- 2 spaces for selected filetypes
--- cmd [[
--- autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml,htmljinja setlocal shiftwidth=2 tabstop=2
--- ]]
--- С этой строкой отлично форматирует html файл, который содержит jinja2
--- cmd [[ autocmd BufNewFile,BufRead *.html set filetype=htmldjango ]]
+
 -----------------------------------------------------------
 -- Полезные фишки
 -----------------------------------------------------------
 -- Запоминает где nvim последний раз редактировал файл
--- cmd [[
--- autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
--- ]]
+cmd([[
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+]])
 -- Подсвечивает на доли секунды скопированную часть текста
 exec(
 	[[
@@ -83,9 +89,6 @@ augroup end
 ]],
 	false
 )
-
--- GitBlame enable
--- g.blamer_enabled = 1
 
 local _border = "single"
 

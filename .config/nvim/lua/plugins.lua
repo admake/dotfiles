@@ -1,6 +1,26 @@
 vim.cmd([[packadd packer.nvim]])
 
-require("packer").startup(function()
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
+
+local ensure_packer = function()
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+require("packer").startup(function(use)
 	-- Packer сам себя
 	use("wbthomason/packer.nvim")
 
@@ -30,12 +50,10 @@ require("packer").startup(function()
 	-- GitGutters
 	use("airblade/vim-gitgutter")
 
-	-- GitBlame
-	-- use("APZelos/blamer.nvim")
-
 	-----------------------------------------------------------
 	-- НАВИГАЦИЯ
 	-----------------------------------------------------------
+
 	-- Файловый менеджер
 	use({
 		"nvim-tree/nvim-tree.lua",
@@ -96,6 +114,9 @@ require("packer").startup(function()
 	-- Snippets plugin
 	use("L3MON4D3/LuaSnip")
 
+	--tabnine as copilot
+	-- use({ "tbodt/deoplete-tabnine", run = "./install.sh" })
+
 	-----------------------------------------------------------
 	-- Refactoring
 	-----------------------------------------------------------
@@ -106,14 +127,6 @@ require("packer").startup(function()
 			{ "nvim-treesitter/nvim-treesitter" },
 		},
 	})
-
-	-----------------------------------------------------------
-	-- HTML и CSS
-	-----------------------------------------------------------
-	-- Подсвечивает закрывающий и открыт тэг. Если, где-то что-то не закрыто, то не подсвечивает.
-	-- use("idanarye/breeze.vim")
-	-- Закрывает автоматом html и xml тэги. Пишешь <h1> и он автоматом закроется </h1>
-	-- use("alvan/vim-closetag")
 
 	-----------------------------------------------------------
 	-- РАЗНОЕ
@@ -134,8 +147,6 @@ require("packer").startup(function()
 	use("google/vim-searchindex")
 	-- Может повторять через . vimsurround
 	use("tpope/vim-repeat")
-	-- Стартовая страница, если просто набрать vim в консоле
-	-- use 'mhinz/vim-startify'
 	-- Комментирует по gc все, вне зависимости от языка программирования
 	use({
 		"numToStr/Comment.nvim",
@@ -143,19 +154,14 @@ require("packer").startup(function()
 			require("Comment").setup()
 		end,
 	})
-	-- Обрамляет строку в теги по ctrl- y + ,
-	-- use 'mattn/emmet-vim'
 	-- Закрывает автоматом скобки
 	use("cohama/lexima.vim")
-	-- Линтер, работает для всех языков
-	-- use 'dense-analysis/ale'
 	-- Для кеймапов
 	use("b0o/mapx.nvim")
 
 	-- вместо fugitive
 	use("lewis6991/gitsigns.nvim")
 
-	-- use("tpope/vim-fugitive")
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")
@@ -250,6 +256,10 @@ require("packer").startup(function()
 			"haydenmeade/neotest-jest",
 		},
 	})
+
+	if packer_bootstrap then
+		require("packer").sync()
+	end
 end)
 
 require("mason").setup()

@@ -3,7 +3,7 @@ vim.cmd([[packadd packer.nvim]])
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+    autocmd BufWritePost plugins-setup.lua source <afile> | PackerCompile
   augroup end
 ]])
 
@@ -68,9 +68,6 @@ require("packer").startup(function(use)
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
 		requires = { { "nvim-lua/plenary.nvim" } },
-		config = function()
-			require("telescope").setup({})
-		end,
 	})
 
 	-----------------------------------------------------------
@@ -148,12 +145,7 @@ require("packer").startup(function(use)
 	-- Может повторять через . vimsurround
 	use("tpope/vim-repeat")
 	-- Комментирует по gc все, вне зависимости от языка программирования
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
-	})
+	use("numToStr/Comment.nvim")
 	-- Закрывает автоматом скобки
 	use("cohama/lexima.vim")
 	-- Для кеймапов
@@ -171,10 +163,6 @@ require("packer").startup(function(use)
 	-- 		require("vim-leader-guide").setup()
 	-- 	end,
 	-- })
-	-- Jest runner
-	-- use("David-Kunz/jester")
-	-- Smooth scroll
-	-- use("karb94/neoscroll.nvim")
 	-- numb navigate
 	use("nacro90/numb.nvim")
 	-- documentation generator
@@ -187,13 +175,6 @@ require("packer").startup(function(use)
 	use({
 		"folke/trouble.nvim",
 		requires = "nvim-tree/nvim-web-devicons",
-		config = function()
-			require("trouble").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
-		end,
 	})
 
 	-- Diagnostics Code Action Menu
@@ -241,10 +222,6 @@ require("packer").startup(function(use)
 
 	-- Startup time
 	use("dstein64/vim-startuptime")
-	-- use("tweekmonster/startuptime.vim")
-
-	-- LateX Highlight
-	-- use("jbyuki/nabla.vim")
 
 	-- Test Runner
 	use({
@@ -257,84 +234,8 @@ require("packer").startup(function(use)
 		},
 	})
 
+	use("gpanders/editorconfig.nvim")
 	if packer_bootstrap then
 		require("packer").sync()
 	end
 end)
-
-require("mason").setup()
-
--- require("mason-lspconfig").setup({
---     ensure_installed = {
---         'bashls',
---         'diagnosticls',
---         'dockerls',
---         'dotls',
---         'eslint',
---         'jsonls',
---         'tsserver',
---         'marksman',
---         'sumneko_lua',
---         'remark_ls',
---         'vimls',
---         'lemminx',
---         'yamlls'
---     }
--- })
-
-require("mason-tool-installer").setup({
-	-- a list of all tools you want to ensure are installed upon
-	-- start; they should be the names Mason uses for each tool
-	ensure_installed = { -- you can turn off/on auto_update per tool
-		"bash-language-server",
-		"diagnostic-languageserver",
-		"dockerfile-language-server",
-		"dot-language-server",
-		"eslint_d",
-		"eslint-lsp",
-		"jq",
-		"json-lsp",
-		"markdownlint",
-		"node-debug2-adapter",
-		"prettier",
-		"prettierd",
-		"shellcheck",
-		"shellcheck",
-		"typescript-language-server",
-		"vim-language-server",
-		"vint",
-		"xmlformatter",
-		"yaml-language-server",
-		"yamllint",
-		"lua-language-server",
-		"stylua",
-		-- 'sumneko_lua',
-		-- 'gopls',
-		-- 'editorconfig-checker'
-		-- 'impl',
-		-- 'json-to-struct',
-		-- 'luacheck',
-		-- 'misspell',
-		-- 'revive',
-		-- 'shfmt',
-		-- 'staticcheck',
-	},
-
-	-- if set to true this will check each tool for updates. If updates
-	-- are available the tool will be updated. This setting does not
-	-- affect :MasonToolsUpdate or :MasonToolsInstall.
-	-- Default: false
-	auto_update = false,
-
-	-- automatically install / update on startup. If set to false nothing
-	-- will happen on startup. You can use :MasonToolsInstall or
-	-- :MasonToolsUpdate to install tools and check for updates.
-	-- Default: true
-	run_on_start = true,
-
-	-- set a delay (in ms) before the installation starts. This is only
-	-- effective if run_on_start is set to true.
-	-- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
-	-- Default: 0
-	start_delay = 1000, -- 3 second delay
-})

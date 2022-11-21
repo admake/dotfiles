@@ -13,6 +13,8 @@ require("nvim-lightbulb").setup({ autocmd = { enabled = true } })
 
 require("Comment").setup()
 
+require("nvim-web-devicons").setup()
+
 require("trouble").setup({
 	-- your configuration comes here
 	-- or leave it empty to use the default settings

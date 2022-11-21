@@ -27,7 +27,7 @@ require("packer").startup(function(use)
 	-----------------------------------------------------------
 	-- ПЛАГИНЫ ВНЕШНЕГО ВИДА
 	-----------------------------------------------------------
-
+	use("nvim-tree/nvim-web-devicons")
 	-- Цветовая схема
 	use("rmehri01/onenord.nvim")
 
@@ -49,6 +49,10 @@ require("packer").startup(function(use)
 
 	-- GitGutters
 	use("airblade/vim-gitgutter")
+
+	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
+
+	use("lukas-reineke/indent-blankline.nvim")
 
 	-----------------------------------------------------------
 	-- НАВИГАЦИЯ
@@ -110,9 +114,6 @@ require("packer").startup(function(use)
 	use("hrsh7th/cmp-path")
 	-- Snippets plugin
 	use("L3MON4D3/LuaSnip")
-
-	--tabnine as copilot
-	-- use({ "tbodt/deoplete-tabnine", run = "./install.sh" })
 
 	-----------------------------------------------------------
 	-- Refactoring

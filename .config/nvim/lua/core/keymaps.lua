@@ -45,6 +45,9 @@ end)
 -- NvimTreeToggle
 nnoremap("<leader>b", ":NvimTreeToggle<CR>", "<silent>")
 
+-- TroubleToggle
+nnoremap("<leader>l", ":TroubleToggle<CR>", "<silent>")
+
 -----------------------------------------------------------
 -- Refactoring Mappings
 -----------------------------------------------------------

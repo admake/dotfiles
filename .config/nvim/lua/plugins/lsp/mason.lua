@@ -1,4 +1,8 @@
-require("mason").setup()
+require("mason").setup({
+	ui = {
+		border = "single",
+	},
+})
 
 require("mason-tool-installer").setup({
 	-- a list of all tools you want to ensure are installed upon
@@ -23,15 +27,6 @@ require("mason-tool-installer").setup({
 		"xmlformatter",
 		"yaml-language-server",
 		"yamllint",
-		-- 'sumneko_lua',
-		-- 'gopls',
-		-- 'impl',
-		-- 'json-to-struct',
-		-- 'luacheck',
-		-- 'misspell',
-		-- 'revive',
-		-- 'shfmt',
-		-- 'staticcheck',
 	},
 
 	-- if set to true this will check each tool for updates. If updates
@@ -52,21 +47,3 @@ require("mason-tool-installer").setup({
 	-- Default: 0
 	start_delay = 1000, -- 3 second delay
 })
-
--- require("mason-lspconfig").setup({
---     ensure_installed = {
---         'bashls',
---         'diagnosticls',
---         'dockerls',
---         'dotls',
---         'eslint',
---         'jsonls',
---         'tsserver',
---         'marksman',
---         'sumneko_lua',
---         'remark_ls',
---         'vimls',
---         'lemminx',
---         'yamlls'
---     }
--- })

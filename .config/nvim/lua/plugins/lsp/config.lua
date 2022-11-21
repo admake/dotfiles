@@ -94,6 +94,12 @@ require("lspconfig").dockerls.setup({
 require("lspconfig").jsonls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
+		},
+	},
 })
 require("lspconfig").vimls.setup({
 	on_attach = on_attach,

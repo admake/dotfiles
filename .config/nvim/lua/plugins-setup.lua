@@ -114,6 +114,8 @@ require("packer").startup(function(use)
 	use("hrsh7th/cmp-path")
 	-- Snippets plugin
 	use("L3MON4D3/LuaSnip")
+	-- SchemaStore для jsonls и yamlls
+	use("b0o/schemastore.nvim")
 
 	-----------------------------------------------------------
 	-- Refactoring
@@ -236,6 +238,8 @@ require("packer").startup(function(use)
 	})
 
 	use("gpanders/editorconfig.nvim")
+	use("edluffy/specs.nvim")
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

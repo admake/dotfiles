@@ -84,7 +84,7 @@ require("packer").startup(function(use)
 	use("onsails/lspkind.nvim")
 	-- Collection of configurations for built-in LSP client
 	use("neovim/nvim-lspconfig")
-	-- use 'williamboman/nvim-lsp-installer'
+	use("ray-x/lsp_signature.nvim")
 	use("williamboman/mason.nvim")
 	use("williamboman/mason-lspconfig.nvim")
 	use("WhoIsSethDaniel/mason-tool-installer.nvim")

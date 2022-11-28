@@ -138,3 +138,10 @@ require("lspconfig").eslint.setup({
 	formatStdin = true,
 	quiet = true,
 })
+
+require("lsp_signature").setup({
+	bind = true, -- This is mandatory, otherwise border config won't get registered.
+	handler_opts = {
+		border = "single",
+	},
+})

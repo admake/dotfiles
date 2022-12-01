@@ -52,6 +52,8 @@ require("packer").startup(function(use)
 
 	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
 
+	use("rhysd/conflict-marker.vim")
+
 	use("lukas-reineke/indent-blankline.nvim")
 
 	-----------------------------------------------------------
@@ -160,19 +162,13 @@ require("packer").startup(function(use)
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")
-	-- use({
-	-- 	"spinks/vim-leader-guide",
-	-- 	config = function()
-	-- 		require("vim-leader-guide").setup()
-	-- 	end,
-	-- })
 	-- numb navigate
 	use("nacro90/numb.nvim")
 	-- documentation generator
-	-- use({
-	-- 	"kkoomen/vim-doge",
-	-- 	run = ":call doge#install()",
-	-- })
+	use({
+		"kkoomen/vim-doge",
+		run = ":call doge#install()",
+	})
 	-- diagnostic list etc
 	-- Lua
 	use({
@@ -198,26 +194,8 @@ require("packer").startup(function(use)
 	-- Rooter отвечает за авто рут открытого проекта
 	use("airblade/vim-rooter")
 
-	-- Window auto focus and navigate
-	-- use({
-	-- 	"beauwilliams/focus.nvim",
-	-- 	config = function()
-	-- 		require("focus").setup()
-	-- 	end,
-	-- })
-	-- Or lazy load with `module` option. See further down for info on how to lazy load when using FocusSplit commands
-	-- Or lazy load this plugin by creating an arbitrary command using the cmd option in packer.nvim
-	-- use { 'beauwilliams/focus.nvim', cmd = { "FocusSplitNicely", "FocusSplitCycle" }, module = "focus",
-	--     config = function()
-	--         require("focus").setup({hybridnumber = true})
-	--     end
-	-- }
-
 	-- Multiple cursors
-	-- use("terryma/vim-multiple-cursors")
-
-	-- multi cursor Ctrl-D
-	-- use({ "mg979/vim-visual-multi", branch = "master" })
+	use("terryma/vim-multiple-cursors")
 
 	-- Is using a standard Neovim install, i.e. built from source or using a
 	-- provided appimage.

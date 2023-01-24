@@ -64,6 +64,7 @@ require("packer").startup(function(use)
 	use({
 		"nvim-tree/nvim-tree.lua",
 		requires = "nvim-tree/nvim-web-devicons",
+		tag = "nightly",
 	})
 
 	-- Навигация внутри файла по классам и функциям

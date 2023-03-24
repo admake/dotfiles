@@ -177,11 +177,14 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 source "${HOME}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "${HOME}/.jfrog/jfrog_zsh_completion"
 # eval "$(kubectl completion zsh); compdef _kubectl kubectl;"
+# eval "$(jira completion zsh); compdef _jira jira;"
 # eval "$(volta completions zsh); compdef _volta volta;"
 # eval "$(bw completion --shell zsh); compdef _bw bw;"
-# kubectl completion zsh > "${HOME}/.zsh/.kubectl_completions.zsh"
-# volta completions zsh > "${HOME}/.zsh/.volta_completions.zsh"
-# bw completion --shell zsh > "${HOME}/.zsh/.bitwarden_completions.zsh"
+kubectl completion zsh > "${HOME}/.zsh/_kubectl_completions.zsh"
+volta completions zsh > "${HOME}/.zsh/_volta_completions.zsh"
+bw completion --shell zsh > "${HOME}/.zsh/_bitwarden_completions.zsh"
+jira completion zsh > "${HOME}/.zsh/_jira_completions.zsh"
+glow completion zsh > "${HOME}/.zsh/_glow_completions.zsh"
 fpath+=$HOME/.zsh
 
 autoload -Uz compinit

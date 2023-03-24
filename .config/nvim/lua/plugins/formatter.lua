@@ -2,21 +2,21 @@
 -- formatting
 -----------------------------------------------------------
 
-vim.env.PRETTIERD_LOCAL_PRETTIER_ONLY = 1
+-- vim.env.PRETTIERD_LOCAL_PRETTIER_ONLY = 1
 
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 require("formatter").setup({
 	-- Enable or disable logging
 	logging = true,
 	-- Set the log level
-	-- log_level = vim.log.levels.DEBUG,
+	log_level = vim.log.levels.DEBUG,
 	-- All formatter configurations are opt-in
 	filetype = {
 		yaml = { require("formatter.defaults.prettierd") },
 		json = { require("formatter.defaults.prettierd") },
 		typescript = { require("formatter.defaults.prettierd") },
 		javascript = { require("formatter.defaults.prettierd") },
-		markdown = { require("formatter.defaults.prettierd") },
+		markdown = { require("formatter.defaults.prettier") },
 		lua = { require("formatter.filetypes.lua").stylua },
 	},
 })

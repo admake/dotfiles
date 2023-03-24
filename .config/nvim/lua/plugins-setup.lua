@@ -219,6 +219,15 @@ require("packer").startup(function(use)
 	use("gpanders/editorconfig.nvim")
 	use("edluffy/specs.nvim")
 
+	use({
+		"epwalsh/obsidian.nvim",
+		requires = {
+			"ibhagwan/fzf-lua",
+			"preservim/vim-markdown",
+			"godlygeek/tabular",
+		},
+	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

@@ -41,6 +41,9 @@ end)
 vim.keymap.set("n", "<leader>fh", function()
 	require("telescope.builtin").help_tags()
 end)
+vim.keymap.set("n", "<leader>fd", function()
+	require("telescope.builtin").diagnostics()
+end)
 
 -- NvimTreeToggle
 nnoremap("<leader>b", ":NvimTreeToggle<CR>", "<silent>")

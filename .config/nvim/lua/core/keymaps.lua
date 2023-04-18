@@ -1,5 +1,7 @@
 local mapx = require("mapx")
 local nnoremap = mapx.nnoremap
+local inoremap = mapx.inoremap
+local vnoremap = mapx.vnoremap
 
 -- Remap space as leader key.
 -- Leader key is a special key that will allow us to make some additional keybindings.
@@ -12,9 +14,17 @@ vim.g.maplocalleader = " "
 -- vim.keymap.set("n", "<leader>", "<cmd>LeaderGuide '<Space>'<CR>", { silent = true })
 -- vim.keymap.set("v", "<leader>", "<cmd>LeaderGuideVisual '<Space>'<CR>", { silent = true })
 
+--
 -- Mappings.
+--
 
-vim.keymap.set("n", "<leader>nh", ":nohl<CR>")
+-- Move lines C-j C-k
+nnoremap("<C-j>", ":m .+1<CR>==")
+nnoremap("<C-k>", ":m .-2<CR>==")
+inoremap("<C-j>", "<Esc>:m .+1<CR>==gi")
+inoremap("<C-k>", "<Esc>:m .-2<CR>==gi")
+vnoremap("<C-j>", ":m '>+1<CR>gv=gv")
+vnoremap("<C-k>", ":m '<-2<CR>gv=gv")
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = {
@@ -25,6 +35,7 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+
 -----------------------------------------------------------
 -- telescope
 -----------------------------------------------------------

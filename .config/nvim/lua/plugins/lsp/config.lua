@@ -1,5 +1,4 @@
 -- nvim-cmp supports additional completion capabilities local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Use an on_attach function to only map the following keys
@@ -20,7 +19,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	vim.keymap.set("n", "gk", vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)

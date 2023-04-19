@@ -3,8 +3,6 @@
 -----------------------------------------------------------
 require("onenord").setup()
 
-require("gitsigns").setup()
-
 -- numb navigate preview
 require("numb").setup()
 

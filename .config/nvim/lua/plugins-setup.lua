@@ -47,9 +47,6 @@ require("packer").startup(function(use)
 		requires = "nvim-tree/nvim-web-devicons",
 	})
 
-	-- GitGutters
-	use("airblade/vim-gitgutter")
-
 	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
 
 	use("rhysd/conflict-marker.vim")
@@ -156,10 +153,8 @@ require("packer").startup(function(use)
 	use("cohama/lexima.vim")
 	-- Для кеймапов
 	use("b0o/mapx.nvim")
-
 	-- вместо fugitive
 	use("lewis6991/gitsigns.nvim")
-
 	use("tpope/vim-sensible")
 	use("f-person/auto-dark-mode.nvim")
 	use("mhartington/formatter.nvim")

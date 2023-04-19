@@ -9,6 +9,7 @@ require("mason-tool-installer").setup({
 	-- start; they should be the names Mason uses for each tool
 	ensure_installed = { -- you can turn off/on auto_update per tool
 		"bash-language-server",
+		"black",
 		"diagnostic-languageserver",
 		"dockerfile-language-server",
 		"editorconfig-checker",

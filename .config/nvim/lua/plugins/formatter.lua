@@ -19,6 +19,7 @@ require("formatter").setup({
 		markdown = { require("formatter.defaults.prettier") },
 		lua = { require("formatter.filetypes.lua").stylua },
 		python = { require("formatter.filetypes.python").black },
+		sh = { require("formatter.filetypes.sh").shfmt },
 	},
 })
 

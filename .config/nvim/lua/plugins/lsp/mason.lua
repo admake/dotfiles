@@ -23,6 +23,7 @@ require("mason-tool-installer").setup({
 		"node-debug2-adapter",
 		"prettier",
 		"prettierd",
+		"shfmt",
 		"shellcheck",
 		"stylua",
 		"typescript-language-server",

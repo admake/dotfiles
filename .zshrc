@@ -72,14 +72,14 @@ SPACESHIP_GIT_STATUS_UNMERGED="!"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  oc
-  git
-  colored-man-pages
-  npm
-  httpie
-  docker
-  docker-compose
-  jq-zsh-plugin
+    oc
+    git
+    colored-man-pages
+    npm
+    httpie
+    docker
+    docker-compose
+    jq-zsh-plugin
 )
 
 # Uncomment this line to enable ohmyzsh
@@ -95,9 +95,9 @@ export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
+    export EDITOR='vim'
 else
-  export EDITOR='nvim'
+    export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -111,47 +111,43 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-alias gs="git status "
-alias gsb="git status -sb "
-alias go="git checkout "
-alias go-="git checkout -"
 alias ga="git add "
-alias gap="git add -p "
 alias gai="git add -i "
-alias gc="git commit -v "
-alias gc!="git commit --amend -v"
-alias gca="git commit -av "
-alias gca!="git commit -av --amend "
-alias gcf="git commit --fixup=$1 "
-alias gh="git hist "
-alias gha="git hist --all "
-alias gd="git diff "
-alias gdw="git diff --word-diff "
-alias gds="git diff --staged "
-alias gdc="git diff --cached "
-alias gdsw="git diff --staged --word-diff "
-alias gdh="git diff @ "
-alias gdt="git difftool "
-alias gtags="git tag --sort='v:refname' "
+alias gap="git add -p "
 alias gb="git branch "
 alias gba="git branch --all "
 alias gbas="git branch --all --sort=-committerdate "
+alias gc!="git commit --amend -v"
+alias gc="git commit -v "
+alias gca!="git commit -av --amend "
+alias gca="git commit -av "
+alias gcf="git commit --fixup=$1 "
+alias gd="git diff "
+alias gdc="git diff --cached "
+alias gdh="git diff @ "
+alias gds="git diff --staged "
+alias gdsw="git diff --staged --word-diff "
+alias gdt="git difftool "
+alias gdw="git diff --word-diff "
+alias gfa="git fetch --all "
+alias gh="git hist "
+alias gha="git hist --all "
+alias gk="gitk --all& "
 alias gm="git merge "
 alias gmf="git merge --ff-only "
-alias gfa="git fetch --all "
-alias grb="git rebase "
-alias gri="git rebase -i --autosquash "
+alias go-="git checkout -"
+alias go="git checkout "
 alias gp="git push "
 alias gpf="git push --force-with-lease "
-alias gpmr="git push -o merge_request.create -o merge_request.target=$1"
-alias gpmr_="git push -o merge_request.create -o merge_request.target=$1 -o merge_request.merge_when_pipeline_succeeds"
-alias gpmr!="git push -o merge_request.create -o merge_request.target=$1 -o merge_request.merge_when_pipeline_succeeds -o merge_request.remove_source_branch"
 alias gpr="git pull --rebase --autostash "
-alias gpp="git pull --rebase --autostash $1 $2 && git push $1 $2 --tags"
 alias gr="git reset "
-alias grs="git reset --soft "
+alias grb="git rebase "
 alias grh="git reset --hard "
-alias gk="gitk --all& "
+alias gri="git rebase -i --autosquash "
+alias grs="git reset --soft "
+alias gs="git status "
+alias gsb="git status -sb "
+alias gtags="git tag --sort='v:refname' "
 alias gx="gitx --all "
 
 alias vim="nvim"
@@ -163,7 +159,8 @@ alias oni="oni2"
 fpath+=$HOME/.zsh/pure
 
 # Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
+autoload -U promptinit
+promptinit
 # prompt pure
 prompt spaceship
 
@@ -176,21 +173,17 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source "${HOME}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "${HOME}/.jfrog/jfrog_zsh_completion"
-# eval "$(kubectl completion zsh); compdef _kubectl kubectl;"
-# eval "$(jira completion zsh); compdef _jira jira;"
-# eval "$(volta completions zsh); compdef _volta volta;"
-# eval "$(bw completion --shell zsh); compdef _bw bw;"
-kubectl completion zsh > "${HOME}/.zsh/_kubectl_completions.zsh"
-volta completions zsh > "${HOME}/.zsh/_volta_completions.zsh"
-bw completion --shell zsh > "${HOME}/.zsh/_bitwarden_completions.zsh"
-jira completion zsh > "${HOME}/.zsh/_jira_completions.zsh"
-glow completion zsh > "${HOME}/.zsh/_glow_completions.zsh"
+kubectl completion zsh >"${HOME}/.zsh/_kubectl_completions.zsh"
+volta completions zsh >"${HOME}/.zsh/_volta_completions.zsh"
+bw completion --shell zsh >"${HOME}/.zsh/_bitwarden_completions.zsh"
+jira completion zsh >"${HOME}/.zsh/_jira_completions.zsh"
+glow completion zsh >"${HOME}/.zsh/_glow_completions.zsh"
 fpath+=$HOME/.zsh
 
 autoload -Uz compinit
 compinit
 
-typeset -U fpath  # Optinal for oh-my-zsh users
+typeset -U fpath # Optinal for oh-my-zsh users
 fpath=(~/.zsh/oc $fpath)
 autoload -U compinit
 compinit -i

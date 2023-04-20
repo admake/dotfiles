@@ -20,6 +20,7 @@ require("formatter").setup({
 		lua = { require("formatter.filetypes.lua").stylua },
 		python = { require("formatter.filetypes.python").black },
 		sh = { require("formatter.filetypes.sh").shfmt },
+		zsh = { require("formatter.filetypes.sh").shfmt },
 	},
 })
 

@@ -160,6 +160,8 @@ require("packer").startup(function(use)
 	use("mhartington/formatter.nvim")
 	-- numb navigate
 	use("nacro90/numb.nvim")
+	-- gx open links plugin
+	use("stsewd/gx-extended.vim")
 	-- documentation generator
 	use({
 		"kkoomen/vim-doge",

@@ -6,8 +6,10 @@ vim.g.translate_target = "en"
 -- g.tagbar_sort = 0
 
 -- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
+-- because https://github.com/nvim-tree/nvim-tree.lua#setup
+-- vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.g.netrw_browser_viewer = "open"
 
 -----------------------------------------------------------
 -- Главные

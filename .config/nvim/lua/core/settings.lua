@@ -77,3 +77,6 @@ augroup end
 )
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+vim.o.timeout = true
+vim.o.timeoutlen = 300

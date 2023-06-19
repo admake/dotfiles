@@ -200,3 +200,5 @@ complete -o nospace -C /usr/local/bin/vault vault
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+autoload zmv

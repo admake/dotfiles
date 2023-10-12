@@ -30,3 +30,9 @@ require("trouble").setup({})
 require("which-key").setup({})
 
 require("specs").setup({})
+
+local fauxpilot = require("cmp_fauxpilot.config")
+
+fauxpilot:setup({
+	host = "https://pilot.dev.mts.ai",
+})

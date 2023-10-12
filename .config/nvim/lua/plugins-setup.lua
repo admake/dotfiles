@@ -70,7 +70,7 @@ require("packer").startup(function(use)
 	-- Замена fzf и ack
 	use({
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.0",
+		branch = "0.1.x",
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
 
@@ -89,6 +89,10 @@ require("packer").startup(function(use)
 	use("williamboman/mason-lspconfig.nvim")
 	use("WhoIsSethDaniel/mason-tool-installer.nvim")
 	-- Автодополнялка
+	use({
+		"nvim-telescope/telescope-fzf-native.nvim",
+		run = "make",
+	})
 	use("hrsh7th/nvim-cmp")
 	use("hrsh7th/cmp-nvim-lsp")
 	use("hrsh7th/cmp-buffer")
@@ -96,10 +100,6 @@ require("packer").startup(function(use)
 	use("hrsh7th/cmp-nvim-lsp-signature-help")
 	use("ray-x/cmp-treesitter")
 	use("saadparwaiz1/cmp_luasnip")
-	use({
-		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "make",
-	})
 	use({
 		"tzachar/cmp-fuzzy-buffer",
 		requires = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" },
@@ -110,6 +110,7 @@ require("packer").startup(function(use)
 			"nvim-lua/plenary.nvim",
 		},
 	})
+	use({ "nzlov/cmp-fauxpilot", requires = "hrsh7th/nvim-cmp" })
 	-- Автодополнялка к файловой системе
 	use("hrsh7th/cmp-path")
 	-- Snippets plugin

@@ -98,6 +98,7 @@ cmp.setup({
 			name = "nvim_lsp_signature_help",
 			priority = 6,
 		},
+		{ name = "cmp_fauxpilot", priority = 6 },
 		{
 			name = "path",
 			priority = 5,

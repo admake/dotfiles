@@ -194,6 +194,17 @@ require("packer").startup(function(use)
 		requires = "antoinemadec/FixCursorHold.nvim",
 	})
 
+	-- Neogit Popup
+	use({
+		"NeogitOrg/neogit",
+		requires = {
+			"nvim-lua/plenary.nvim", -- required
+			"nvim-telescope/telescope.nvim", -- optional
+			"sindrets/diffview.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+	})
+
 	-- Rooter отвечает за авто рут открытого проекта
 	use("airblade/vim-rooter")
 

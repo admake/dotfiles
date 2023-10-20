@@ -100,6 +100,9 @@ else
     export EDITOR='nvim'
 fi
 
+# pager program instead less
+# export PAGER=nvimpager
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 

@@ -21,6 +21,7 @@ require("formatter").setup({
 		lua = { require("formatter.filetypes.lua").stylua },
 		python = { require("formatter.filetypes.python").black },
 		sh = { require("formatter.filetypes.sh").shfmt },
+		dockerfile = { require("formatter.filetypes.sh").shfmt },
 		xml = { require("formatter.filetypes.xml").tidy },
 		zsh = { require("formatter.filetypes.sh").shfmt },
 	},

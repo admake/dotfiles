@@ -39,7 +39,7 @@ cmp.setup({
 
 		-- Confirm selection.
 		["<CR>"] = cmp.mapping.confirm({
-			select = true,
+			select = false,
 		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		["<C-d>"] = cmp.mapping(function(fallback)
 			if luasnip.jumpable(1) then

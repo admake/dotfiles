@@ -32,7 +32,6 @@ require("obsidian").setup({
 		nvim_cmp = true,
 		-- Trigger completion at 2 chars.
 		min_chars = 2,
-		new_notes_location = "notes_subdir",
 	},
 	attachments = {
 		-- The default folder to place images in via `:ObsidianPasteImg`.

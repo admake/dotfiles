@@ -110,7 +110,6 @@ require("packer").startup(function(use)
 			"nvim-lua/plenary.nvim",
 		},
 	})
-	use({ "nzlov/cmp-fauxpilot", requires = "hrsh7th/nvim-cmp" })
 	-- Автодополнялка к файловой системе
 	use("hrsh7th/cmp-path")
 	-- Snippets plugin
@@ -226,6 +225,7 @@ require("packer").startup(function(use)
 			"nvim-treesitter/nvim-treesitter",
 			"antoinemadec/FixCursorHold.nvim",
 			"haydenmeade/neotest-jest",
+			"nvim-neotest/nvim-nio",
 		},
 	})
 

@@ -179,7 +179,6 @@ source "${HOME}/.jfrog/jfrog_zsh_completion"
 kubectl completion zsh >"${HOME}/.zsh/_kubectl_completions.zsh"
 volta completions zsh >"${HOME}/.zsh/_volta_completions.zsh"
 bw completion --shell zsh >"${HOME}/.zsh/_bitwarden_completions.zsh"
-jira completion zsh >"${HOME}/.zsh/_jira_completions.zsh"
 glow completion zsh >"${HOME}/.zsh/_glow_completions.zsh"
 fpath+=$HOME/.zsh
 

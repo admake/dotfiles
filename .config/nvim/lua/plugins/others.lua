@@ -28,5 +28,3 @@ require("telescope").setup({
 require("trouble").setup({})
 
 require("which-key").setup({})
-
-require("specs").setup({})

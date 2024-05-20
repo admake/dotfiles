@@ -43,7 +43,7 @@ require("packer").startup(function(use)
 	-- Табы вверху
 	use({
 		"akinsho/bufferline.nvim",
-		tag = "v3.*",
+		-- tag = "v4.*",
 		requires = "nvim-tree/nvim-web-devicons",
 	})
 
@@ -230,7 +230,6 @@ require("packer").startup(function(use)
 	})
 
 	use("gpanders/editorconfig.nvim")
-	use("edluffy/specs.nvim")
 
 	use({
 		"epwalsh/obsidian.nvim",

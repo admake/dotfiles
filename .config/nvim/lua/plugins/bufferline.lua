@@ -1,30 +1,21 @@
-require("bufferline").setup({})
--- require("bufferline").setup({
--- 	options = {
--- 		diagnostics = "nvim_lsp",
--- 		show_tab_indicators = true,
--- 		show_buffer_icons = true,
--- 		show_buffer_close_icons = true,
--- 		show_buffer_default_icon = true,
--- 		color_icons = true,
--- 		diagnostics_indicator = function(count, level)
--- 			local icon = level:match("error") and "✘ " or "▲ "
--- 			return " " .. icon .. count
--- 		end,
--- 		hover = {
--- 			enabled = true,
--- 			delay = 200,
--- 			reveal = { "close" },
--- 		},
--- 		offsets = {
--- 			{
--- 				filetype = "NvimTree",
--- 				text = function()
--- 					return vim.fn.getcwd()
--- 				end,
--- 				highlight = "Directory",
--- 				text_align = "left",
--- 			},
--- 		},
--- 	},
--- })
+-- require("bufferline").setup({})
+require("bufferline").setup({
+	options = {
+		mode = "tabs", -- "buffers"
+		diagnostics = "nvim_lsp",
+		diagnostics_indicator = function(count, level)
+			local icon = level:match("error") and "✘ " or "▲ "
+			return " " .. icon .. count
+		end,
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = function()
+					return vim.fn.getcwd()
+				end,
+				highlight = "Directory",
+				text_align = "left",
+			},
+		},
+	},
+})

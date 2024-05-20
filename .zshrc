@@ -79,7 +79,7 @@ plugins=(
     httpie
     docker
     docker-compose
-    jq-zsh-plugin
+    jq
 )
 
 # Uncomment this line to enable ohmyzsh

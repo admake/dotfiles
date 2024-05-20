@@ -57,9 +57,28 @@ local on_attach = function(client, bufnr)
 			desc = "Clear All the References",
 		})
 	end
+
+	-- TODO:
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+	end
 end
 
 require("lspconfig").tsserver.setup({
+	-- root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+	-- TODO:
+	init_options = {
+		preferences = {
+			includeInlayParameterNameHints = "all",
+			includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+			includeInlayFunctionParameterTypeHints = true,
+			includeInlayVariableTypeHints = true,
+			includeInlayPropertyDeclarationTypeHints = true,
+			includeInlayFunctionLikeReturnTypeHints = true,
+			includeInlayEnumMemberValueHints = true,
+			importModuleSpecifierPreference = "non-relative",
+		},
+	},
 	on_attach = on_attach,
 	capabilities = capabilities,
 })

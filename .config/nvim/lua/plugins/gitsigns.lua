@@ -36,9 +36,9 @@ require("gitsigns").setup({
 		row = 0,
 		col = 1,
 	},
-	yadm = {
-		enable = true,
-	},
+	-- yadm = {
+	-- 	enable = true,
+	-- },
 	on_attach = function(bufnr)
 		local gs = package.loaded.gitsigns
 

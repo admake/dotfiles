@@ -64,7 +64,7 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-require("lspconfig").tsserver.setup({
+require("lspconfig").ts_ls.setup({
 	-- root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 	-- TODO:
 	init_options = {
@@ -156,7 +156,7 @@ require("lspconfig").eslint.setup({
 	formatStdin = true,
 	quiet = true,
 })
-require("lspconfig").ruff_lsp.setup({
+require("lspconfig").ruff.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })

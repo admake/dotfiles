@@ -1,3 +1,8 @@
+# start of .zshrc
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zmodload zsh/zprof
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -204,3 +209,8 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 autoload zmv
+
+# rest of .zshrc script
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zprof
+fi

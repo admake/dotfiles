@@ -229,6 +229,9 @@ require("packer").startup(function(use)
 		},
 	})
 
+	-- Display execution value
+	use("typed-rocks/ts-worksheet-neovim")
+
 	use("gpanders/editorconfig.nvim")
 
 	use({
@@ -239,6 +242,9 @@ require("packer").startup(function(use)
 			"godlygeek/tabular",
 		},
 	})
+
+	-- Markdown preview
+	use("OXY2DEV/markview.nvim")
 
 	if packer_bootstrap then
 		require("packer").sync()

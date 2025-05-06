@@ -26,6 +26,8 @@ inoremap("<C-k>", "<Esc>:m .-2<CR>==gi")
 vnoremap("<C-j>", ":m '>+1<CR>gv=gv")
 vnoremap("<C-k>", ":m '<-2<CR>gv=gv")
 
+-- Diagnostics
+
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = {
 	noremap = true,
@@ -35,6 +37,12 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+
+-- Togle virtual_lines
+vim.keymap.set("n", "gK", function()
+	local new_config = not vim.diagnostic.config().virtual_lines
+	vim.diagnostic.config({ virtual_lines = new_config })
+end, { desc = "Toggle diagnostic virtual_lines" })
 
 -----------------------------------------------------------
 -- telescope
@@ -95,5 +103,6 @@ end)
 -- end)
 
 -----------------------------------------------------------
--- bufferline
+-- Tsw
 -----------------------------------------------------------
+nnoremap("<leader>R", ":Tsw show_variables=true<CR>", "silent")

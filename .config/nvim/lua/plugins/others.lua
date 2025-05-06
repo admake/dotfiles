@@ -13,6 +13,8 @@ require("Comment").setup()
 
 require("nvim-web-devicons").setup()
 
+require("tsw").setup({ show_variables = true, show_order = true })
+
 -- local actions = require("telescope.actions")
 local trouble = require("trouble.sources.telescope")
 
@@ -28,3 +30,11 @@ require("telescope").setup({
 require("trouble").setup({})
 
 require("which-key").setup({})
+
+local presets = require("markview.presets").tables
+
+require("markview").setup({
+	markdown = {
+		tables = presets.rounded,
+	},
+})

@@ -38,3 +38,5 @@ require("markview").setup({
 		tables = presets.rounded,
 	},
 })
+
+require("nvim-surround").setup({})

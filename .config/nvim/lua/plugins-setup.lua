@@ -1,252 +1,174 @@
-vim.cmd([[packadd packer.nvim]])
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins-setup.lua source <afile> | PackerCompile
-  augroup end
-]])
-
-local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+require("lazy").setup({
+	-- Packer self-managed не нужен в lazy.nvim
 
-require("packer").startup(function(use)
-	-- Packer сам себя
-	use("wbthomason/packer.nvim")
+	-- Плагины внешнего вида
+	{ "nvim-tree/nvim-web-devicons" },
+	{ "rmehri01/onenord.nvim" },
 
-	-----------------------------------------------------------
-	-- ПЛАГИНЫ ВНЕШНЕГО ВИДА
-	-----------------------------------------------------------
-	use("nvim-tree/nvim-web-devicons")
-	-- Цветовая схема
-	use("rmehri01/onenord.nvim")
-
-	--- Информационная строка внизу
-	use({
+	{
 		"nvim-lualine/lualine.nvim",
-		requires = {
-			"nvim-tree/nvim-web-devicons",
-			opt = true,
-		},
-	})
-
-	-- Табы вверху
-	use({
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
 		"akinsho/bufferline.nvim",
-		-- tag = "v4.*",
-		requires = "nvim-tree/nvim-web-devicons",
-	})
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
+		"sindrets/diffview.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{ "rhysd/conflict-marker.vim" },
+	{ "lukas-reineke/indent-blankline.nvim" },
 
-	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
-
-	use("rhysd/conflict-marker.vim")
-
-	use("lukas-reineke/indent-blankline.nvim")
-
-	-----------------------------------------------------------
-	-- НАВИГАЦИЯ
-	-----------------------------------------------------------
-
-	-- Файловый менеджер
-	use({
+	-- Навигация
+	{
 		"nvim-tree/nvim-tree.lua",
-		requires = "nvim-tree/nvim-web-devicons",
-		tag = "nightly",
-	})
-
-	-- Навигация внутри файла по классам и функциям
-	use("majutsushi/tagbar")
-
-	-- Замена fzf и ack
-	use({
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{ "majutsushi/tagbar" },
+	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+		version = "0.1.x",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 
-	-----------------------------------------------------------
 	-- LSP и автодополнялка
-	-----------------------------------------------------------
-	-- Highlight, edit, and navigate code using a fast incremental parsing library
-	use("nvim-treesitter/nvim-treesitter")
-	use("nvim-treesitter/playground")
-	-- This tiny plugin adds vscode-like pictograms to neovim built-in lsp
-	use("onsails/lspkind.nvim")
-	-- Collection of configurations for built-in LSP client
-	use("neovim/nvim-lspconfig")
-	use("ray-x/lsp_signature.nvim")
-	use("williamboman/mason.nvim")
-	use("williamboman/mason-lspconfig.nvim")
-	use("WhoIsSethDaniel/mason-tool-installer.nvim")
-	-- Автодополнялка
-	use({
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- рек. добавить build для обновления
+	{ "nvim-treesitter/playground" },
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		-- lazy.nvim не использует after, но можно поставить lazy.load по событию
+	},
+	{ "onsails/lspkind.nvim" },
+	{ "neovim/nvim-lspconfig" },
+	{ "ray-x/lsp_signature.nvim" },
+	{ "williamboman/mason.nvim" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "make",
-	})
-	use("hrsh7th/nvim-cmp")
-	use("hrsh7th/cmp-nvim-lsp")
-	use("hrsh7th/cmp-buffer")
-	use("hrsh7th/cmp-cmdline")
-	use("hrsh7th/cmp-nvim-lsp-signature-help")
-	use("ray-x/cmp-treesitter")
-	use("saadparwaiz1/cmp_luasnip")
-	use({
+		build = "make",
+	},
+	{ "hrsh7th/nvim-cmp" },
+	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/cmp-buffer" },
+	{ "hrsh7th/cmp-cmdline" },
+	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+	{ "ray-x/cmp-treesitter" },
+	{ "saadparwaiz1/cmp_luasnip" },
+	{
 		"tzachar/cmp-fuzzy-buffer",
-		requires = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" },
-	})
-	use({
+		dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" },
+	},
+	{
 		"David-Kunz/cmp-npm",
-		requires = {
-			"nvim-lua/plenary.nvim",
-		},
-	})
-	-- Автодополнялка к файловой системе
-	use("hrsh7th/cmp-path")
-	-- Snippets plugin
-	use("L3MON4D3/LuaSnip")
-	-- SchemaStore для jsonls и yamlls
-	use("b0o/schemastore.nvim")
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	{ "hrsh7th/cmp-path" },
+	{ "L3MON4D3/LuaSnip" },
+	{ "b0o/schemastore.nvim" },
 
-	-----------------------------------------------------------
 	-- Refactoring
-	-----------------------------------------------------------
-	use({
+	{
 		"ThePrimeagen/refactoring.nvim",
-		requires = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+	},
+
+	-- Разное
+	{ "neoclide/jsonc.vim" },
+	{ "powerman/vim-plugin-ruscmd" },
+	{ "Chiel92/vim-autoformat" },
+	{ "tpope/vim-unimpaired" },
+	{ "skanehira/translate.vim" },
+	{ "nvim-lua/popup.nvim" },
+	{
+		"kylechui/nvim-surround",
+		version = "main", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
-	})
-
-	-----------------------------------------------------------
-	-- РАЗНОЕ
-	-----------------------------------------------------------
-	-- JSON comments
-	use("neoclide/jsonc.vim")
-	-- Даже если включена русская раскладка vim команды будут работать
-	use("powerman/vim-plugin-ruscmd")
-	-- 'Автоформатирование' кода для всех языков
-	use("Chiel92/vim-autoformat")
-	-- ]p - вставить на строку выше, [p - ниже
-	use("tpope/vim-unimpaired")
-	-- Переводчик рус - англ
-	use("skanehira/translate.vim")
-	--- popup окошки
-	use("nvim-lua/popup.nvim")
-	-- Обрамляет или снимает обрамление. Выдели слово, нажми S и набери <h1>
-	use("tpope/vim-surround")
-	-- Считает кол-во совпадений при поиске
-	use("google/vim-searchindex")
-	-- Может повторять через . vimsurround
-	use("tpope/vim-repeat")
-	-- Комментирует по gc все, вне зависимости от языка программирования
-	use("numToStr/Comment.nvim")
-	-- Закрывает автоматом скобки
-	use("cohama/lexima.vim")
-	-- Для кеймапов
-	use("b0o/mapx.nvim")
-	-- вместо fugitive
-	use("lewis6991/gitsigns.nvim")
-	use("tpope/vim-sensible")
-	use("f-person/auto-dark-mode.nvim")
-	use("mhartington/formatter.nvim")
-	-- numb navigate
-	use("nacro90/numb.nvim")
-	-- gx open links plugin
-	use("stsewd/gx-extended.vim")
-	-- documentation generator
-	use({
+	},
+	{ "google/vim-searchindex" },
+	{ "tpope/vim-repeat" },
+	{ "numToStr/Comment.nvim" },
+	{ "cohama/lexima.vim" },
+	{ "b0o/mapx.nvim" },
+	{ "lewis6991/gitsigns.nvim" },
+	{ "tpope/vim-sensible" },
+	{ "f-person/auto-dark-mode.nvim" },
+	{ "mhartington/formatter.nvim" },
+	{ "nacro90/numb.nvim" },
+	{ "stsewd/gx-extended.vim" },
+	{
 		"kkoomen/vim-doge",
-		run = ":call doge#install()",
-	})
-	-- diagnostic list etc
-	-- Lua
-	use({
+		build = ":call doge#install()",
+	},
+	{
 		"folke/trouble.nvim",
-		requires = "nvim-tree/nvim-web-devicons",
-	})
-	-- Highlight keymaps
-	use("folke/which-key.nvim")
-
-	-- Diagnostics Code Action Menu
-	use({
+		dependencies = "nvim-tree/nvim-web-devicons",
+	},
+	{ "folke/which-key.nvim" },
+	{
 		"weilbith/nvim-code-action-menu",
 		cmd = "CodeActionMenu",
 		config = function()
 			require("code_action_menu")
 		end,
-	})
-
-	-- Diagnostics bulb
-	use({
+	},
+	{
 		"kosayoda/nvim-lightbulb",
-		requires = "antoinemadec/FixCursorHold.nvim",
-	})
-
-	-- Neogit Popup
-	use({
+		dependencies = "antoinemadec/FixCursorHold.nvim",
+	},
+	{
 		"NeogitOrg/neogit",
-		requires = {
-			"nvim-lua/plenary.nvim", -- required
-			"nvim-telescope/telescope.nvim", -- optional
-			"sindrets/diffview.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"sindrets/diffview.nvim",
+			"ibhagwan/fzf-lua",
 		},
-	})
-
-	-- Rooter отвечает за авто рут открытого проекта
-	use("airblade/vim-rooter")
-
-	-- Multiple cursors
-	use("terryma/vim-multiple-cursors")
-
-	-- Is using a standard Neovim install, i.e. built from source or using a
-	-- provided appimage.
-	use("lewis6991/impatient.nvim")
-
-	-- Startup time
-	use("dstein64/vim-startuptime")
-
-	-- Test Runner
-	use({
+	},
+	{ "airblade/vim-rooter" },
+	{ "terryma/vim-multiple-cursors" },
+	{ "lewis6991/impatient.nvim" },
+	{ "dstein64/vim-startuptime" },
+	{
 		"nvim-neotest/neotest",
-		requires = {
+		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"antoinemadec/FixCursorHold.nvim",
 			"haydenmeade/neotest-jest",
 			"nvim-neotest/nvim-nio",
 		},
-	})
-
-	-- Display execution value
-	use("typed-rocks/ts-worksheet-neovim")
-
-	use("gpanders/editorconfig.nvim")
-
-	use({
+	},
+	{ "typed-rocks/ts-worksheet-neovim" },
+	{ "gpanders/editorconfig.nvim" },
+	{
 		"epwalsh/obsidian.nvim",
-		requires = {
+		dependencies = {
 			"ibhagwan/fzf-lua",
 			"preservim/vim-markdown",
 			"godlygeek/tabular",
 		},
-	})
-
-	-- Markdown preview
-	use("OXY2DEV/markview.nvim")
-
-	if packer_bootstrap then
-		require("packer").sync()
-	end
-end)
+	},
+	{
+		"OXY2DEV/markview.nvim", --[[ dependencies = "" ]]
+	},
+})

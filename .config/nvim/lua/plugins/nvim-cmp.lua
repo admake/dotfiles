@@ -94,6 +94,8 @@ cmp.setup({
 			name = "treesitter",
 			priority = 7,
 		},
+
+		-- { name = "parrot", priority = 6 },
 		{
 			name = "nvim_lsp_signature_help",
 			priority = 6,

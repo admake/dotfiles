@@ -266,7 +266,6 @@ require("lazy").setup({
 
 	{
 		"OXY2DEV/markview.nvim",
-		lazy = false,
-		priority = 49, -- ниже, чем у treesitter
+		event = "VeryLazy",
 	},
 })

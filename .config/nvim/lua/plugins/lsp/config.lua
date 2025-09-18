@@ -1,19 +1,10 @@
--- nvim-cmp supports additional completion capabilities local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- nvim-cmp capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+-- on_attach function без изменений
 local on_attach = function(client, bufnr)
-	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-	-- Mappings.
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local bufopts = {
-		noremap = true,
-		silent = true,
-		buffer = bufnr,
-	}
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
@@ -30,20 +21,9 @@ local on_attach = function(client, bufnr)
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
 
-	-----------------------------------------------------------
-	-- Diagnostic highlight
-	-----------------------------------------------------------
-
-	-- Server capabilities spec:
-	-- https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#serverCapabilities
 	if client.server_capabilities.documentHighlightProvider then
-		vim.api.nvim_create_augroup("lsp_document_highlight", {
-			clear = true,
-		})
-		vim.api.nvim_clear_autocmds({
-			buffer = bufnr,
-			group = "lsp_document_highlight",
-		})
+		vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+		vim.api.nvim_clear_autocmds({ buffer = bufnr, group = "lsp_document_highlight" })
 		vim.api.nvim_create_autocmd("CursorHold", {
 			callback = vim.lsp.buf.document_highlight,
 			buffer = bufnr,
@@ -58,15 +38,13 @@ local on_attach = function(client, bufnr)
 		})
 	end
 
-	-- TODO:
 	if client.server_capabilities.inlayHintProvider then
 		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 	end
 end
 
-require("lspconfig").ts_ls.setup({
-	-- root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-	-- TODO:
+-- Конфигурации LSP серверов через vim.lsp.config
+vim.lsp.config.ts_ls = {
 	init_options = {
 		preferences = {
 			includeInlayParameterNameHints = "all",
@@ -81,12 +59,16 @@ require("lspconfig").ts_ls.setup({
 	},
 	on_attach = on_attach,
 	capabilities = capabilities,
-})
-require("lspconfig").marksman.setup({
+}
+vim.lsp.enable("ts_ls")
+
+vim.lsp.config.marksman = {
 	on_attach = on_attach,
 	capabilities = capabilities,
-})
-require("lspconfig").yamlls.setup({
+}
+vim.lsp.enable("marksman")
+
+vim.lsp.config.yamlls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
@@ -100,16 +82,16 @@ require("lspconfig").yamlls.setup({
 			},
 		},
 	},
-})
-require("lspconfig").bashls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").dockerls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").jsonls.setup({
+}
+vim.lsp.enable("yamlls")
+
+vim.lsp.config.bashls = { on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("bashls")
+
+vim.lsp.config.dockerls = { on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("dockerls")
+
+vim.lsp.config.jsonls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
@@ -118,36 +100,28 @@ require("lspconfig").jsonls.setup({
 			validate = { enable = true },
 		},
 	},
-})
-require("lspconfig").vimls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").lua_ls.setup({
+}
+vim.lsp.enable("jsonls")
+
+vim.lsp.config.vimls = { on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("vimls")
+
+vim.lsp.config.lua_ls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
 		Lua = {
-			runtime = {
-				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-				version = "LuaJIT",
-			},
-			diagnostics = {
-				-- Get the language server to recognize the `vim` global
-				globals = { "vim" },
-			},
-			workspace = {
-				-- Make the server aware of Neovim runtime files
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			-- Do not send telemetry data containing a randomized but unique identifier
-			telemetry = {
-				enable = false,
-			},
+			runtime = { version = "LuaJIT" },
+			diagnostics = { globals = { "vim" } },
+			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			telemetry = { enable = false },
 		},
 	},
-})
-require("lspconfig").eslint.setup({
+}
+vim.lsp.enable("lua_ls")
+
+-- eslint и ruff без on_attach
+vim.lsp.config.eslint = {
 	lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
 	lintStdin = true,
 	lintFormats = { "%f:%l:%c: %m" },
@@ -155,19 +129,17 @@ require("lspconfig").eslint.setup({
 	formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
 	formatStdin = true,
 	quiet = true,
-})
-require("lspconfig").ruff.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-require("lspconfig").pylsp.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+}
+vim.lsp.enable("eslint")
 
+vim.lsp.config.ruff = { on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("ruff")
+
+vim.lsp.config.pylsp = { on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("pylsp")
+
+-- Настройка lsp_signature (оставить как есть)
 require("lsp_signature").setup({
-	bind = true, -- This is mandatory, otherwise border config won't get registered.
-	handler_opts = {
-		border = "single",
-	},
+	bind = true,
+	handler_opts = { border = "single" },
 })

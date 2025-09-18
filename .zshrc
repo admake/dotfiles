@@ -140,6 +140,15 @@ export PATH="/usr/local/opt/curl/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+export PATH="/usr/local/opt/curl/bin:$PATH"
+
+# For compilers to find curl you may need to set:
+export LDFLAGS="-L/usr/local/opt/curl/lib"
+export CPPFLAGS="-I/usr/local/opt/curl/include"
+
+# For pkg-config to find curl you may need to set:
+export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
+
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 

@@ -27,9 +27,9 @@ require("telescope").setup({
 	},
 })
 
-require("trouble").setup({})
+require("trouble").setup()
 
-require("which-key").setup({})
+require("which-key").setup()
 
 local presets = require("markview.presets").tables
 
@@ -39,4 +39,4 @@ require("markview").setup({
 	},
 })
 
-require("nvim-surround").setup({})
+require("mini.surround").setup()

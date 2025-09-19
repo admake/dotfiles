@@ -74,27 +74,28 @@ require("lazy").setup({
 		dependencies = { "OXY2DEV/markview.nvim" }, -- markview как зависимость
 	},
 
-	{ "nvim-treesitter/playground" },
-
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 
-	{ "onsails/lspkind.nvim" },
-	{ "neovim/nvim-lspconfig" },
-	{ "ray-x/lsp_signature.nvim" },
-	{ "williamboman/mason.nvim" },
-	{ "williamboman/mason-lspconfig.nvim" },
+	{ "L3MON4D3/LuaSnip" },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-
-	{ "hrsh7th/nvim-cmp" },
-	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "b0o/schemastore.nvim" },
 	{ "hrsh7th/cmp-buffer" },
 	{ "hrsh7th/cmp-cmdline" },
+	{ "hrsh7th/cmp-nvim-lsp" },
 	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+	{ "hrsh7th/cmp-path" },
+	{ "hrsh7th/nvim-cmp" },
+	{ "neovim/nvim-lspconfig" },
+	{ "nvim-treesitter/playground" },
+	{ "onsails/lspkind.nvim" },
 	{ "ray-x/cmp-treesitter" },
+	{ "ray-x/lsp_signature.nvim" },
 	{ "saadparwaiz1/cmp_luasnip" },
+	{ "williamboman/mason-lspconfig.nvim" },
+	{ "williamboman/mason.nvim" },
 
 	{
 		"tzachar/cmp-fuzzy-buffer",
@@ -105,10 +106,6 @@ require("lazy").setup({
 		"David-Kunz/cmp-npm",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-
-	{ "hrsh7th/cmp-path" },
-	{ "L3MON4D3/LuaSnip" },
-	{ "b0o/schemastore.nvim" },
 
 	--------------------------------------------------------------------------------
 	-- LLM Kotype and Codify
@@ -130,27 +127,27 @@ require("lazy").setup({
 			providers = {
 				kodify = {
 					__inherited_from = "openai",
-					endpoint = "https://demo1-fundres.dev.mts.ai/v1",
-					api_path = "/chat/completions",
 					api_key_name = "KODIFY_API_KEY",
-					model = "kodify_2.0.1",
-					enabled = true,
-					timeout = 30000,
+					api_path = "/chat/completions",
 					disable_tools = true,
+					enabled = true,
+					endpoint = "https://demo1-fundres.dev.mts.ai/v1",
+					model = "kodify_2.0.1",
+					timeout = 30000,
 				},
 			},
 			default_provider = "kodify",
 		},
 		dependencies = {
-			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			"echasnovski/mini.pick",
-			"nvim-telescope/telescope.nvim",
+			"folke/snacks.nvim",
 			"hrsh7th/nvim-cmp",
 			"ibhagwan/fzf-lua",
-			"stevearc/dressing.nvim",
-			"folke/snacks.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
 			"nvim-tree/nvim-web-devicons",
+			"stevearc/dressing.nvim",
 			{
 				"HakonHarnes/img-clip.nvim",
 				event = "VeryLazy",
@@ -173,9 +170,9 @@ require("lazy").setup({
 		"ThePrimeagen/refactoring.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
 	},
+	{ "cohama/lexima.vim" },
 	{ "echasnovski/mini.surround", version = "*" },
 	{ "numToStr/Comment.nvim" },
-	{ "cohama/lexima.vim" },
 
 	--------------------------------------------------------------------------------
 	-- Git и интеграция с системой контроля версий
@@ -184,30 +181,30 @@ require("lazy").setup({
 	{
 		"NeogitOrg/neogit",
 		dependencies = {
+			"ibhagwan/fzf-lua",
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 			"sindrets/diffview.nvim",
-			"ibhagwan/fzf-lua",
 		},
 	},
 
 	--------------------------------------------------------------------------------
 	-- Утилиты и другое
 	--------------------------------------------------------------------------------
-	{ "neoclide/jsonc.vim" },
-	{ "powerman/vim-plugin-ruscmd" },
 	{ "Chiel92/vim-autoformat" },
-	{ "tpope/vim-unimpaired" },
-	{ "skanehira/translate.vim" },
-	{ "nvim-lua/popup.nvim" },
-	{ "google/vim-searchindex" },
-	{ "tpope/vim-repeat" },
 	{ "b0o/mapx.nvim" },
-	{ "tpope/vim-sensible" },
 	{ "f-person/auto-dark-mode.nvim" },
+	{ "google/vim-searchindex" },
 	{ "mhartington/formatter.nvim" },
 	{ "nacro90/numb.nvim" },
+	{ "neoclide/jsonc.vim" },
+	{ "nvim-lua/popup.nvim" },
+	{ "powerman/vim-plugin-ruscmd" },
+	{ "skanehira/translate.vim" },
 	{ "stsewd/gx-extended.vim" },
+	{ "tpope/vim-repeat" },
+	{ "tpope/vim-sensible" },
+	{ "tpope/vim-unimpaired" },
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
@@ -240,11 +237,11 @@ require("lazy").setup({
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
 			"antoinemadec/FixCursorHold.nvim",
 			"haydenmeade/neotest-jest",
+			"nvim-lua/plenary.nvim",
 			"nvim-neotest/nvim-nio",
+			"nvim-treesitter/nvim-treesitter",
 		},
 	},
 

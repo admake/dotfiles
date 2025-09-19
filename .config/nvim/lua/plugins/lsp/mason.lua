@@ -16,13 +16,14 @@ require("mason-tool-installer").setup({
 		"eslint-lsp",
 		"eslint_d",
 		"jq",
+		"js-debug-adapter",
 		"json-lsp",
 		"lua-language-server",
 		"markdownlint",
 		"marksman",
-		"node-debug2-adapter",
 		"prettier",
 		"prettierd",
+		"python-lsp-server",
 		"ruff",
 		"shellcheck",
 		"shfmt",
@@ -32,6 +33,7 @@ require("mason-tool-installer").setup({
 		"vint",
 		"xmlformatter",
 		"yaml-language-server",
+		"yamllint",
 	},
 	-- iyamllint                   f set to true this will check each tool for updates. If updates
 	-- are available the tool will be updated. This setting does not

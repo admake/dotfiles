@@ -12,17 +12,17 @@ require("formatter").setup({
 	log_level = vim.log.levels.INFO,
 	-- All formatter configurations are opt-in
 	filetype = {
-		yaml = { require("formatter.defaults.prettier") },
+		dockerfile = { require("formatter.filetypes.sh").shfmt },
+		javascript = { require("formatter.defaults.prettier") },
 		json = { require("formatter.defaults.prettier") },
 		jsonc = { require("formatter.defaults.prettier") },
-		typescript = { require("formatter.defaults.prettier") },
-		javascript = { require("formatter.defaults.prettier") },
-		markdown = { require("formatter.defaults.prettier") },
 		lua = { require("formatter.filetypes.lua").stylua },
+		markdown = { require("formatter.defaults.prettier") },
 		python = { require("formatter.filetypes.python").black },
 		sh = { require("formatter.filetypes.sh").shfmt },
-		dockerfile = { require("formatter.filetypes.sh").shfmt },
+		typescript = { require("formatter.defaults.prettier") },
 		xml = { require("formatter.filetypes.xml").tidy },
+		yaml = { require("formatter.defaults.prettier") },
 		zsh = { require("formatter.filetypes.sh").shfmt },
 	},
 })

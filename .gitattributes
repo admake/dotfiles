@@ -1,0 +1,4 @@
+*.js diff=java
+*.sc diff=python
+*.py diff=python
+*.php diff=php

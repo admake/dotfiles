@@ -96,6 +96,7 @@ require("lazy").setup({
 	{ "saadparwaiz1/cmp_luasnip" },
 	{ "williamboman/mason-lspconfig.nvim" },
 	{ "williamboman/mason.nvim" },
+	{ "bullets-vim/bullets.vim" },
 
 	{
 		"tzachar/cmp-fuzzy-buffer",
@@ -260,9 +261,26 @@ require("lazy").setup({
 			"OXY2DEV/markview.nvim",
 		},
 	},
-
 	{
 		"OXY2DEV/markview.nvim",
 		event = "VeryLazy",
+		config = function()
+			require("markview").setup({
+				experemental = {
+					check_rtp_message = false,
+				},
+			})
+		end,
+	},
+	{
+		"karb94/neoscroll.nvim",
+		config = function()
+			require("neoscroll").setup({
+				-- Your configuration options here
+				-- easing = "quintic",
+				easing = "linear",
+				duration_multiplier = 0.25,
+			})
+		end,
 	},
 })

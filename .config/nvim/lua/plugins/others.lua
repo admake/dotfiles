@@ -40,3 +40,5 @@ require("markview").setup({
 })
 
 require("mini.surround").setup()
+
+require("claudecode").setup()

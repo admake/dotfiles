@@ -1,6 +1,67 @@
 vim.g.vim_markdown_folding_disabled = 1
 vim.opt.conceallevel = 1
 
+-- Функция для создания заметки из шаблона при переходе по ссылке
+function CreateNoteFromTemplate()
+	local obsidian = require("obsidian")
+	local client = obsidian.get_client()
+	if not client then
+		print("Obsidian client not found")
+		return
+	end
+
+	-- Получаем текст под курсором (работает с [[link]] и простыми словами)
+	local cursor_word = vim.fn.expand("<cfile>")
+	-- Убираем квадратные скобки, если они есть (поддержка вики-ссылок)
+	local note_name = cursor_word:match("^%[%[(.+)%]%]$") or cursor_word
+	if note_name == "" or note_name == cursor_word and not cursor_word:match("%w") then
+		print("No valid link under cursor")
+		return
+	end
+
+	-- Формируем путь к файлу заметки
+	local vault_path = client:vault_path()
+	local note_path = vault_path .. "/" .. note_name .. ".md"
+
+	-- Проверяем, существует ли уже такая заметка
+	if vim.fn.filereadable(note_path) == 1 then
+		-- Если существует, открываем её стандартным способом
+		vim.cmd("ObsidianFollowLink")
+		return
+	end
+
+	-- Задаём путь к шаблону (⚠️ ИЗМЕНИТЕ ПОД СЕБЯ)
+	local template_path = vault_path .. "/templates/default.md" -- например
+
+	local template_file = io.open(template_path, "r")
+	if not template_file then
+		print("Template file not found: " .. template_path)
+		-- Можно создать пустую заметку, если шаблона нет
+		template_file = nil
+	end
+
+	local content = ""
+	if template_file then
+		content = template_file:read("*a")
+		template_file:close()
+	else
+		-- Если шаблона нет, создаём минимальную структуру
+		content = "# " .. note_name .. "\n\n"
+	end
+
+	-- Создаём новую заметку через API плагина
+	local new_note = client:create_note(note_name)
+	new_note:write(content, { write_opts = { overwrite = false } })
+	new_note:save()
+
+	-- Открываем созданную заметку
+	client:open_note(new_note)
+end
+
+-- Создаём пользовательскую команду и назначаем сочетание клавиш
+vim.api.nvim_create_user_command("ObsidianFollowSmart", CreateNoteFromTemplate, {})
+vim.keymap.set("n", "<CR>", "<cmd>ObsidianFollowSmart<CR>", { noremap = true, silent = true })
+
 require("obsidian").setup({
 	ui = { enable = false },
 	workspaces = {
@@ -39,6 +100,17 @@ require("obsidian").setup({
 		-- If this is a relative path it will be interpreted as relative to the vault root.
 		-- You can always override this per image by passing a full path to the command instead of just a filename.
 		img_folder = "assets/imgs", -- This is the default
+		-- A function that determines the text to insert in the note when pasting an image.
+		-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+		-- This is the default implementation.
+		---@param client obsidian.Client
+		---@param path obsidian.Path the absolute path to the image file
+		---@return string
+		img_text_func = function(client, path)
+			path = client:vault_relative_path(path) or path
+			return string.format("![%s](%s)", path.name, path)
+		end,
+		confirm_img_paste = false,
 	},
 
 	-- Optional, for templates (see below).

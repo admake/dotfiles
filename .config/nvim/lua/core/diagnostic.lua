@@ -41,20 +41,4 @@ vim.diagnostic.config({
 			return message
 		end,
 	},
-
-	-- defaults
-	-- {
-	--     virtual_text = true,
-	--     signs = true,
-	--     update_in_insert = false,
-	--     underline = true,
-	--     severity_sort = false,
-	--     float = true
-	-- float = {
-	--     border = 'rounded',
-	--     source = 'always',
-	--     header = '',
-	--     prefix = ''
-	-- }
-	-- }
 }, neotest_ns)

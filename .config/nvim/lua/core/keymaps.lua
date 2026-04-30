@@ -1,108 +1,157 @@
-local mapx = require("mapx")
-local nnoremap = mapx.nnoremap
-local inoremap = mapx.inoremap
-local vnoremap = mapx.vnoremap
+local wk = require("which-key")
 
 -- Remap space as leader key.
--- Leader key is a special key that will allow us to make some additional keybindings.
--- I'm using a spacebar, but you can use whatever you'd wish
--- We'll use it (for example) for searching and changing file
--- (by pressing spacebar, then `s` and then `f`).
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
--- vim.keymap.set("n", "<leader>", "<cmd>LeaderGuide '<Space>'<CR>", { silent = true })
--- vim.keymap.set("v", "<leader>", "<cmd>LeaderGuideVisual '<Space>'<CR>", { silent = true })
 
---
+------------
 -- Mappings.
---
+------------
+wk.add({
+	-- Move lines (normal, insert, visual)
+	{ "<C-j>", ":m .+1<CR>==", desc = "Move line down", mode = "n", noremap = true, silent = true },
+	{ "<C-k>", ":m .-2<CR>==", desc = "Move line up", mode = "n", noremap = true, silent = true },
+	{ "<C-j>", "<Esc>:m .+1<CR>==gi", desc = "Move line down", mode = "i", noremap = true, silent = true },
+	{ "<C-k>", "<Esc>:m .-2<CR>==gi", desc = "Move line up", mode = "i", noremap = true, silent = true },
+	{ "<C-j>", ":m '>+1<CR>gv=gv", desc = "Move line down", mode = "v", noremap = true, silent = true },
+	{ "<C-k>", ":m '<-2<CR>gv=gv", desc = "Move line up", mode = "v", noremap = true, silent = true },
 
--- Move lines C-j C-k
-nnoremap("<C-j>", ":m .+1<CR>==")
-nnoremap("<C-k>", ":m .-2<CR>==")
-inoremap("<C-j>", "<Esc>:m .+1<CR>==gi")
-inoremap("<C-k>", "<Esc>:m .-2<CR>==gi")
-vnoremap("<C-j>", ":m '>+1<CR>gv=gv")
-vnoremap("<C-k>", ":m '<-2<CR>gv=gv")
+	-- Diagnostics
+	{ "<leader>e", vim.diagnostic.open_float, desc = "Show diagnostic", mode = "n", noremap = true, silent = true },
+	{
+		"g[",
+		function()
+			vim.diagnostic.jump({ count = -1 })
+		end,
+		desc = "Previous diagnostic",
+		mode = "n",
+		noremap = true,
+		silent = true,
+	},
+	{
+		"g]",
+		function()
+			vim.diagnostic.jump({ count = 1 })
+		end,
+		desc = "Next diagnostic",
+		mode = "n",
+		noremap = true,
+		silent = true,
+	},
+	{ "<leader>q", vim.diagnostic.setloclist, desc = "Set location list", mode = "n", noremap = true, silent = true },
+	{
+		"gK",
+		function()
+			local new_config = not vim.diagnostic.config().virtual_lines
+			vim.diagnostic.config({ virtual_lines = new_config })
+		end,
+		desc = "Toggle diagnostic virtual_lines",
+		mode = "n",
+		noremap = true,
+		silent = true,
+	},
 
--- Diagnostics
+	-- Show which-key for buffer local keymaps
+	{
+		"<leader>?",
+		function()
+			require("which-key").show({ global = false })
+		end,
+		desc = "Buffer Local Keymaps (which-key)",
+		mode = "n",
+	},
 
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = {
-	noremap = true,
-	silent = true,
-}
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "g]", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+	-- Telescope
+	{ "<c-p>", proxy = "<leader>ff", desc = "Find files (proxy)" },
+	{
+		"<leader>ff",
+		function()
+			require("telescope.builtin").find_files({ hidden = true })
+		end,
+		desc = "Find files",
+		mode = "n",
+	},
+	{
+		"<leader>fg",
+		function()
+			require("telescope.builtin").live_grep()
+		end,
+		desc = "Files grep",
+		mode = "n",
+	},
+	{
+		"<leader>fb",
+		function()
+			require("telescope.builtin").buffers()
+		end,
+		desc = "Find buffers",
+		mode = "n",
+	},
+	{
+		"<leader>fh",
+		function()
+			require("telescope.builtin").help_tags()
+		end,
+		desc = "Find helps",
+		mode = "n",
+	},
+	{
+		"<leader>fd",
+		function()
+			require("telescope.builtin").diagnostics()
+		end,
+		desc = "Find diagnostic",
+		mode = "n",
+	},
 
--- Togle virtual_lines
-vim.keymap.set("n", "gK", function()
-	local new_config = not vim.diagnostic.config().virtual_lines
-	vim.diagnostic.config({ virtual_lines = new_config })
-end, { desc = "Toggle diagnostic virtual_lines" })
+	{ "<leader>lg", ":LazyGit<CR>", desc = "LazyGit" },
 
------------------------------------------------------------
--- telescope
------------------------------------------------------------
-nnoremap("<c-p>", "<cmd>lua require('telescope.builtin').find_files({hidden=true})<cr>")
-vim.keymap.set("n", "<leader>ff", function()
-	require("telescope.builtin").find_files({ hidden = true })
-end)
-vim.keymap.set("n", "<leader>fg", function()
-	require("telescope.builtin").live_grep()
-end)
-vim.keymap.set("n", "<leader>fb", function()
-	require("telescope.builtin").buffers()
-end)
-vim.keymap.set("n", "<leader>fh", function()
-	require("telescope.builtin").help_tags()
-end)
-vim.keymap.set("n", "<leader>fd", function()
-	require("telescope.builtin").diagnostics()
-end)
+	-- NvimTree
+	{ "<leader>b", ":NvimTreeToggle<CR>", desc = "Toggle Tree", mode = "n", noremap = true, silent = true },
 
--- NvimTreeToggle
-nnoremap("<leader>b", ":NvimTreeToggle<CR>", "<silent>")
+	-- Trouble
+	{ "<leader>l", ":TroubleToggle<CR>", desc = "Toggle Trouble", mode = "n", noremap = true, silent = true },
 
--- TroubleToggle
-nnoremap("<leader>l", ":TroubleToggle<CR>", "<silent>")
+	-- Refactoring (visual mode)
+	{
+		"<leader>rr",
+		":lua require('refactoring').select_refactor()<CR>",
+		desc = "Select refactor",
+		mode = "v",
+		noremap = true,
+		silent = true,
+	},
 
------------------------------------------------------------
--- Refactoring Mappings
------------------------------------------------------------
--- prompt for a refactor to apply when the remap is triggered
-vim.keymap.set(
-	"v",
-	"<leader>rr",
-	":lua require('refactoring').select_refactor()<CR>",
-	{ noremap = true, silent = true, expr = false }
-)
+	-- Formatting
+	-- {
+	-- 	"<leader>F",
+	-- 	require("conform").format,
+	-- 	desc = "Format Conform",
+	-- 	icon = "󰗈",
+	-- 	mode = "n",
+	-- 	noremap = true,
+	-- 	silent = true,
+	-- },
 
------------------------------------------------------------
--- -- formatting
------------------------------------------------------------
-nnoremap("<leader>F", ":FormatWrite<CR>", "<silent>")
+	-- Test runner (neotest)
+	{
+		"<leader>tt",
+		function()
+			require("neotest").run.run()
+		end,
+		desc = "Run nearest test",
+		mode = "n",
+	},
+	{
+		"<leader>tf",
+		function()
+			require("neotest").run.run(vim.fn.expand("%"))
+		end,
+		desc = "Run current file",
+		mode = "n",
+	},
 
------------------------------------------------------------
--- test runner
------------------------------------------------------------
--- -- Run nearest test(s) under the cursor
-vim.keymap.set("n", "<leader>tt", function()
-	require("neotest").run.run()
-end)
--- -- Run current file
-vim.keymap.set("n", "<leader>tf", function()
-	require("neotest").run.run(vim.fn.expand("%"))
-end)
--- -- Run last test(s)
--- vim.keymap.set("n", "<leader>tl", function()
--- 	require("jester").run_last()
--- end)
-
------------------------------------------------------------
--- Tsw
------------------------------------------------------------
-nnoremap("<leader>R", ":Tsw show_variables=true<CR>", "silent")
+	-- Tsw
+	{ "<leader>R", ":Tsw show_variables=true<CR>", desc = "Tsw show variables", mode = "n", silent = true },
+})

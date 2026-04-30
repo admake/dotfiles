@@ -1,9 +1,15 @@
-local _border = "single"
+local border = "single"
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = _border,
-})
+-- Прямая настройка hover без vim.lsp.with
+vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
+	config = config or {}
+	config.border = border
+	return vim.lsp.handlers.hover(_, result, ctx, config)
+end
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = _border,
-})
+-- Прямая настройка signatureHelp
+vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+	config = config or {}
+	config.border = border
+	return vim.lsp.handlers.signature_help(_, result, ctx, config)
+end

@@ -1,7 +1,8 @@
+vim.lsp.log.set_level("info")
+
 -- nvim-cmp capabilities
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- on_attach function без изменений
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -23,7 +24,6 @@ local on_attach = function(client, bufnr)
 
 	if client.server_capabilities.documentHighlightProvider then
 		vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-		vim.api.nvim_clear_autocmds({ buffer = bufnr, group = "lsp_document_highlight" })
 		vim.api.nvim_create_autocmd("CursorHold", {
 			callback = vim.lsp.buf.document_highlight,
 			buffer = bufnr,
@@ -43,7 +43,7 @@ local on_attach = function(client, bufnr)
 	end
 end
 
--- Конфигурации LSP серверов через vim.lsp.config
+-- Конфигурации LSP серверов через vim.lsp.config (Neovim 0.11+)
 vim.lsp.config.ts_ls = {
 	init_options = {
 		preferences = {
@@ -62,27 +62,63 @@ vim.lsp.config.ts_ls = {
 }
 vim.lsp.enable("ts_ls")
 
-vim.lsp.config.marksman = {
+vim.lsp.config.markdownlint = { filetypes = { "markdown" }, on_attach = on_attach, capabilities = capabilities }
+vim.lsp.enable("markdownlint")
+
+vim.lsp.config.markdownlint_lsp = {
+	cmd = { "markdownlint-lsp-server", "--stdio" },
+	filetypes = { "markdown" },
 	on_attach = on_attach,
 	capabilities = capabilities,
 }
+vim.lsp.enable("markdownlint_lsp")
+
+vim.lsp.config.marksman = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("marksman")
+
+-- -- Конфигурация efm-langserver как LSP-сервера
+-- vim.lsp.config.efm = {
+-- 	cmd = { "efm-langserver" },
+-- 	filetypes = { "markdown" },
+-- 	init_options = { documentFormatting = false }, -- Отключаем форматирование, если используете conform.nvim
+-- 	settings = {
+-- 		-- rootMarkers = { ".git/" },
+-- 		languages = {
+-- 			markdown = {
+-- 				-- Инструкция для efm, как запускать markdownlint
+-- 				{
+-- 					lintCommand = "markdownlint-cli2 --stdin --stdin-filename ${INPUT}",
+-- 					lintStdin = true,
+-- 					lintFormats = {
+-- 						"%f:%l:%c %m",
+-- 						"%f:%l %m",
+-- 					},
+-- 					lintIgnoreExitCode = true,
+-- 					lintSource = "markdownlint-cli2",
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+-- 	-- Подключаем стандартные обработчики
+-- 	on_attach = on_attach,
+-- 	capabilities = capabilities,
+-- }
+-- -- Активируем сервер
+-- vim.lsp.enable("efm")
 
 vim.lsp.config.yamlls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
 		yaml = {
-			schemaStore = {
-				url = "https://www.schemastore.org/api/json/catalog.json",
-				enable = true,
-			},
+			schemaStore = { url = "https://www.schemastore.org/api/json/catalog.json", enable = true },
 			schemas = {
 				["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = ".gitlab-ci.{yml,yaml}",
 			},
 		},
 	},
 }
+vim.lsp.config.yamlls = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("yamlls")
 
 vim.lsp.config.bashls = { on_attach = on_attach, capabilities = capabilities }
@@ -94,12 +130,7 @@ vim.lsp.enable("dockerls")
 vim.lsp.config.jsonls = {
 	on_attach = on_attach,
 	capabilities = capabilities,
-	settings = {
-		json = {
-			schemas = require("schemastore").json.schemas(),
-			validate = { enable = true },
-		},
-	},
+	settings = { json = { schemas = require("schemastore").json.schemas(), validate = { enable = true } } },
 }
 vim.lsp.enable("jsonls")
 
@@ -120,7 +151,7 @@ vim.lsp.config.lua_ls = {
 }
 vim.lsp.enable("lua_ls")
 
--- eslint и ruff без on_attach
+-- eslint и ruff
 vim.lsp.config.eslint = {
 	lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
 	lintStdin = true,
@@ -138,8 +169,5 @@ vim.lsp.enable("ruff")
 vim.lsp.config.pylsp = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("pylsp")
 
--- Настройка lsp_signature (оставить как есть)
-require("lsp_signature").setup({
-	bind = true,
-	handler_opts = { border = "single" },
-})
+-- lsp_signature
+require("lsp_signature").setup({ bind = true, handler_opts = { border = "single" } })

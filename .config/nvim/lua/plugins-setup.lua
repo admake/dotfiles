@@ -12,55 +12,80 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	-- Глобальные настройки ленивой загрузки
+	defaults = { lazy = true },
+	performance = {
+		cache = { enabled = true },
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
+
 	--------------------------------------------------------------------------------
 	-- UI (Внешний вид и статусные строки)
 	--------------------------------------------------------------------------------
 	{
 		"nvim-tree/nvim-web-devicons",
+		lazy = true,
 	},
-
 	{
 		"rmehri01/onenord.nvim",
 		lazy = false,
+		priority = 1000,
 	},
-
 	{
 		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
-
 	{
 		"akinsho/bufferline.nvim",
+		event = "VeryLazy",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
-
 	{
 		"sindrets/diffview.nvim",
+		cmd = "DiffviewOpen",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-
-	{ "rhysd/conflict-marker.vim" },
-	{ "lukas-reineke/indent-blankline.nvim" },
+	{ "rhysd/conflict-marker.vim", event = "VeryLazy" },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = "VeryLazy",
+		main = "ibl", -- для версии 3 необязательно, но можно указать
+		opts = {}, -- конфиг в отдельном файле plugins/indent_blankline.lua
+	},
 
 	--------------------------------------------------------------------------------
 	-- Навигация и поиск
 	--------------------------------------------------------------------------------
 	{
 		"nvim-tree/nvim-tree.lua",
+		cmd = "NvimTreeToggle",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
-
-	{ "majutsushi/tagbar" },
-
 	{
 		"nvim-telescope/telescope.nvim",
-		version = "0.1.x",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make",
+		cmd = "Telescope",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				cond = function()
+					return vim.fn.executable("make") == 1
+				end,
+			},
+		},
 	},
 
 	--------------------------------------------------------------------------------
@@ -69,52 +94,50 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
-		priority = 50, -- приоритет выше для загрузки первым
+		priority = 50,
 		build = ":TSUpdate",
-		dependencies = { "OXY2DEV/markview.nvim" }, -- markview как зависимость
+		config = function()
+			require("nvim-treesitter.config").setup({
+				ensure_installed = { "lua", "vim", "vimdoc", "javascript", "typescript", "python", "markdown" },
+				auto_install = true,
+				highlight = { enable = true },
+				indent = { enable = true },
+			})
+		end,
 	},
-
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
-
-	{ "L3MON4D3/LuaSnip" },
-	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-	{ "b0o/schemastore.nvim" },
-	{ "hrsh7th/cmp-buffer" },
-	{ "hrsh7th/cmp-cmdline" },
-	{ "hrsh7th/cmp-nvim-lsp" },
-	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-	{ "hrsh7th/cmp-path" },
-	{ "hrsh7th/nvim-cmp" },
-	{ "neovim/nvim-lspconfig" },
-	{ "nvim-treesitter/playground" },
-	{ "onsails/lspkind.nvim" },
-	{ "ray-x/cmp-treesitter" },
-	{ "ray-x/lsp_signature.nvim" },
-	{ "saadparwaiz1/cmp_luasnip" },
-	{ "williamboman/mason-lspconfig.nvim" },
-	{ "williamboman/mason.nvim" },
-	{ "bullets-vim/bullets.vim" },
-
+	-- nvim-cmp и зависимости
+	{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
+	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
+	{ "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
+	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
+	{ "hrsh7th/cmp-path", event = "InsertEnter" },
+	{ "hrsh7th/nvim-cmp", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
+	{ "onsails/lspkind.nvim", event = "InsertEnter" },
+	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
+	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
 	{
 		"tzachar/cmp-fuzzy-buffer",
-		dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim" },
+		dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim", "romgrk/fzy-lua-native" },
+		event = "InsertEnter",
 	},
-
-	{
-		"David-Kunz/cmp-npm",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
+	{ "David-Kunz/cmp-npm", dependencies = { "nvim-lua/plenary.nvim" }, event = "InsertEnter" },
+	-- LSP управление
+	{ "neovim/nvim-lspconfig", event = "BufReadPre" },
+	{ "williamboman/mason.nvim", cmd = "Mason", build = ":MasonUpdate" },
+	{ "williamboman/mason-lspconfig.nvim", dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } },
+	{ "WhoIsSethDaniel/mason-tool-installer.nvim", dependencies = { "williamboman/mason.nvim" } },
+	{ "b0o/schemastore.nvim", lazy = true },
+	{ "ray-x/lsp_signature.nvim", event = "VeryLazy" },
+	{ "bullets-vim/bullets.vim", ft = { "markdown", "text" } },
 
 	--------------------------------------------------------------------------------
-	-- LLM Kotype and Codify
+	-- AI / LLM
 	--------------------------------------------------------------------------------
-	-- {
-	-- 	"frankroeder/parrot.nvim",
-	-- 	dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
-	-- },
 	{
 		"yetone/avante.nvim",
 		build = "make",
@@ -156,9 +179,7 @@ require("lazy").setup({
 					default = {
 						embed_image_as_base64 = false,
 						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
+						drag_and_drop = { insert_mode = true },
 					},
 				},
 			},
@@ -169,7 +190,7 @@ require("lazy").setup({
 		dependencies = { "folke/snacks.nvim" },
 		config = true,
 		keys = {
-			{ "<leader>a", nil, desc = "AI/Claude Code" },
+			{ "<leader>a", nil, desc = "Claude Code" },
 			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
 			{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
 			{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
@@ -183,62 +204,106 @@ require("lazy").setup({
 				desc = "Add file",
 				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
 			},
-			-- Diff management
 			{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
 			{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 		},
 	},
+
 	--------------------------------------------------------------------------------
 	-- Рефакторинг и работа с кодом
 	--------------------------------------------------------------------------------
 	{
 		"ThePrimeagen/refactoring.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
-	},
-	{ "cohama/lexima.vim" },
-	{ "echasnovski/mini.surround", version = "*" },
-	{ "numToStr/Comment.nvim" },
-
-	--------------------------------------------------------------------------------
-	-- Git и интеграция с системой контроля версий
-	--------------------------------------------------------------------------------
-	{ "lewis6991/gitsigns.nvim" },
-	{
-		"NeogitOrg/neogit",
+		cmd = "Refactor",
 		dependencies = {
-			"ibhagwan/fzf-lua",
+			"lewis6991/async.nvim",
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			"sindrets/diffview.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		lazy = false,
+	},
+	{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} }, -- замена lexima.vim
+	{ "echasnovski/mini.surround", version = "*", event = "VeryLazy", config = true },
+	{ "numToStr/Comment.nvim", keys = { { "gc", mode = { "n", "v" }, desc = "Comment" } }, opts = {} },
+	-- Форматирование (conform.nvim)
+	{
+		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		opts = {
+			log_level = vim.log.levels.DEBUG,
+			formatters_by_ft = {
+				lua = { "stylua" },
+				javascript = { "prettierd", "prettier", stop_after_first = true },
+				typescript = { "prettierd", "prettier", stop_after_first = true },
+				json = { "prettierd", "prettier", stop_after_first = true },
+				markdown = { "prettierd", "prettier", stop_after_first = true },
+				python = { "ruff", "black", stop_after_first = true },
+			},
+			-- Set default options
+			default_format_opts = {
+				lsp_format = "fallback",
+			},
+			-- Set up format-on-save
+			format_on_save = { timeout_ms = 500 },
+			-- Customize formatters
+			formatters = {
+				shfmt = {
+					append_args = { "-i", "2" },
+				},
+			},
 		},
 	},
 
 	--------------------------------------------------------------------------------
-	-- Утилиты и другое
+	-- Git
 	--------------------------------------------------------------------------------
-	{ "Chiel92/vim-autoformat" },
-	{ "b0o/mapx.nvim" },
-	{ "f-person/auto-dark-mode.nvim" },
-	{ "google/vim-searchindex" },
-	{ "mhartington/formatter.nvim" },
-	{ "nacro90/numb.nvim" },
-	{ "neoclide/jsonc.vim" },
-	{ "nvim-lua/popup.nvim" },
-	{ "powerman/vim-plugin-ruscmd" },
-	{ "skanehira/translate.vim" },
-	{ "stsewd/gx-extended.vim" },
-	{ "tpope/vim-repeat" },
-	{ "tpope/vim-sensible" },
-	{ "tpope/vim-unimpaired" },
+	{ "lewis6991/gitsigns.nvim", event = "BufReadPost", opts = {} },
 	{
-		"kkoomen/vim-doge",
-		build = ":call doge#install()",
+		"NeogitOrg/neogit",
+		cmd = "Neogit",
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
 	},
+
+	{
+		"kdheepak/lazygit.nvim",
+		lazy = false,
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
+		},
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("telescope").load_extension("lazygit")
+		end,
+	},
+
+	--------------------------------------------------------------------------------
+	-- Утилиты
+	--------------------------------------------------------------------------------
+	{ "f-person/auto-dark-mode.nvim", event = "VeryLazy" },
+	{ "google/vim-searchindex", event = "BufReadPost" },
+	{ "nacro90/numb.nvim", event = "VeryLazy" },
+	{ "powerman/vim-plugin-ruscmd", cmd = "Ruscmd" },
+	{ "skanehira/translate.vim", cmd = "Translate" },
+	{ "stsewd/gx-extended.vim", keys = { "gx" } },
+	{ "tpope/vim-repeat", keys = { "." } },
+	{ "tpope/vim-unimpaired", keys = { "[", "]", "y[", "y]" } },
+	{ "airblade/vim-rooter", event = "VeryLazy" },
+	{ "dstein64/vim-startuptime", cmd = "StartupTime" },
 	{
 		"folke/trouble.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
+		cmd = "Trouble",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
-	{ "folke/which-key.nvim" },
+	{ "folke/which-key.nvim", event = "VeryLazy", opts = {} },
 	{
 		"weilbith/nvim-code-action-menu",
 		cmd = "CodeActionMenu",
@@ -248,19 +313,16 @@ require("lazy").setup({
 	},
 	{
 		"kosayoda/nvim-lightbulb",
-		dependencies = "antoinemadec/FixCursorHold.nvim",
+		dependencies = { "antoinemadec/FixCursorHold.nvim" },
+		event = "VeryLazy",
 	},
-	{ "airblade/vim-rooter" },
-	{ "terryma/vim-multiple-cursors" },
-
-	{ "lewis6991/impatient.nvim" },
-	{ "dstein64/vim-startuptime" },
 
 	--------------------------------------------------------------------------------
 	-- Тестирование
 	--------------------------------------------------------------------------------
 	{
 		"nvim-neotest/neotest",
+		cmd = "Neotest",
 		dependencies = {
 			"antoinemadec/FixCursorHold.nvim",
 			"haydenmeade/neotest-jest",
@@ -271,16 +333,22 @@ require("lazy").setup({
 	},
 
 	--------------------------------------------------------------------------------
-	-- Специализированные плагины и инструменты
+	-- Специализированные
 	--------------------------------------------------------------------------------
-	{ "typed-rocks/ts-worksheet-neovim" },
-	{ "gpanders/editorconfig.nvim" },
-
+	{
+		"chipsenkbeil/distant.nvim",
+		branch = "v0.3",
+		config = function()
+			require("distant"):setup()
+		end,
+	},
+	{ "typed-rocks/ts-worksheet-neovim", ft = "ts" },
+	{ "gpanders/editorconfig.nvim", event = "VeryLazy" },
 	{
 		"epwalsh/obsidian.nvim",
+		ft = "markdown",
 		dependencies = {
 			"ibhagwan/fzf-lua",
-			"preservim/vim-markdown",
 			"godlygeek/tabular",
 			"OXY2DEV/markview.nvim",
 		},
@@ -288,23 +356,11 @@ require("lazy").setup({
 	{
 		"OXY2DEV/markview.nvim",
 		event = "VeryLazy",
-		config = function()
-			require("markview").setup({
-				experemental = {
-					check_rtp_message = false,
-				},
-			})
-		end,
+		opts = { experimental = { check_rtp_message = false } },
 	},
 	{
 		"karb94/neoscroll.nvim",
-		config = function()
-			require("neoscroll").setup({
-				-- Your configuration options here
-				-- easing = "quintic",
-				easing = "linear",
-				duration_multiplier = 0.25,
-			})
-		end,
+		event = "VeryLazy",
+		opts = { easing = "linear", duration_multiplier = 0.25 },
 	},
 })

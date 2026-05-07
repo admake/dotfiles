@@ -30,5 +30,4 @@ require("which-key").setup()
 
 require("mini.surround").setup()
 
--- Refactoring (если не настроен в другом месте)
 require("refactoring").setup({})

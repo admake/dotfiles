@@ -31,7 +31,7 @@ function CreateNoteFromTemplate()
 	end
 
 	-- Задаём путь к шаблону (⚠️ ИЗМЕНИТЕ ПОД СЕБЯ)
-	local template_path = vault_path .. "/templates/default.md" -- например
+	local template_path = vault_path .. "/templates/unique.md" -- например
 
 	local template_file = io.open(template_path, "r")
 	if not template_file then
@@ -59,11 +59,12 @@ function CreateNoteFromTemplate()
 end
 
 -- Создаём пользовательскую команду и назначаем сочетание клавиш
-vim.api.nvim_create_user_command("ObsidianFollowSmart", CreateNoteFromTemplate, {})
-vim.keymap.set("n", "<CR>", "<cmd>ObsidianFollowSmart<CR>", { noremap = true, silent = true })
-
+-- vim.api.nvim_create_user_command("ObsidianFollowSmart", CreateNoteFromTemplate, {})
+-- vim.keymap.set("n", "<CR>", "<cmd>ObsidianFollowSmart<CR>", { noremap = true, silent = true })
+--
 require("obsidian").setup({
 	ui = { enable = false },
+	legacy_commands = false,
 	workspaces = {
 		{
 			name = "personal",
@@ -91,7 +92,8 @@ require("obsidian").setup({
 	new_notes_location = "notes_subdir",
 
 	completion = {
-		nvim_cmp = true,
+		blink = true,
+		nvim_cmp = false,
 		-- Trigger completion at 2 chars.
 		min_chars = 2,
 	},
@@ -99,7 +101,7 @@ require("obsidian").setup({
 		-- The default folder to place images in via `:ObsidianPasteImg`.
 		-- If this is a relative path it will be interpreted as relative to the vault root.
 		-- You can always override this per image by passing a full path to the command instead of just a filename.
-		img_folder = "assets/imgs", -- This is the default
+		folder = "assets/imgs", -- This is the default
 		-- A function that determines the text to insert in the note when pasting an image.
 		-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
 		-- This is the default implementation.
@@ -119,8 +121,38 @@ require("obsidian").setup({
 		date_format = "%Y-%m-%d",
 		time_format = "%H:%M",
 		-- A map for custom variables, the key should be the variable and the value a function
-		substitutions = {},
+		substitutions = { -- Пользовательские переменные
+			yesterday = function()
+				return os.date("%Y-%m-%d", os.time() - 86400)
+			end,
+			tomorrow = function()
+				return os.date("%Y-%m-%d", os.time() + 86400)
+			end,
+		},
 	},
+
+	-- Переопределяем поведение перехода по ссылке
+	follow_link_func = function(client, link)
+		-- 1. Пытаемся найти существующую заметку
+		local note = client:find_note(link)
+		if note then
+			client:open_note(note)
+			return
+		end
+
+		-- 2. Нет заметки — создаём новую из шаблона
+		local template_name = "unique" -- имя без .md
+		-- create_note с опцией template (работает в obsidian.nvim >= 2.x)
+		local new_note = client:create_note(link, {
+			id = link,
+			template = template_name, -- автоматически применит шаблон из папки templates
+		})
+		if new_note then
+			client:open_note(new_note)
+		else
+			vim.notify("Failed to create note from template", vim.log.levels.ERROR)
+		end
+	end,
 
 	-- Optional, customize how names/IDs for new notes are created.
 	note_id_func = function(title)

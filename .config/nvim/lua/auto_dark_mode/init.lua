@@ -11,4 +11,5 @@ auto_dark_mode.setup({
 		vim.cmd("colorscheme onenord")
 	end,
 })
+
 auto_dark_mode.init()

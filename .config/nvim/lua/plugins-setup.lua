@@ -1,3 +1,4 @@
+vim.g.markview_blink_loaded = true
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -38,6 +39,12 @@ require("lazy").setup({
 		lazy = true,
 	},
 	{
+		"gbprod/nord.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{ "fcancelinha/nordern.nvim", lazy = false, priority = 1000 },
+	{
 		"rmehri01/onenord.nvim",
 		lazy = false,
 		priority = 1000,
@@ -64,6 +71,7 @@ require("lazy").setup({
 		main = "ibl", -- для версии 3 необязательно, но можно указать
 		opts = {}, -- конфиг в отдельном файле plugins/indent_blankline.lua
 	},
+	{ "xzbdmw/colorful-menu.nvim" },
 
 	--------------------------------------------------------------------------------
 	-- Навигация и поиск
@@ -110,14 +118,12 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	-- nvim-cmp и зависимости
-	{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
 	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
 	{ "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
 	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
 	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
 	{ "hrsh7th/cmp-path", event = "InsertEnter" },
 	{ "hrsh7th/nvim-cmp", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
-	{ "onsails/lspkind.nvim", event = "InsertEnter" },
 	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
 	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
 	{
@@ -126,7 +132,33 @@ require("lazy").setup({
 		event = "InsertEnter",
 	},
 	{ "David-Kunz/cmp-npm", dependencies = { "nvim-lua/plenary.nvim" }, event = "InsertEnter" },
+
+	-- {
+	-- 	"saghen/blink.compat",
+	-- 	-- use v2.* for blink.cmp v1.*
+	-- 	version = "2.*",
+	-- 	-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+	-- 	lazy = true,
+	-- 	-- make sure to set opts so that lazy.nvim calls blink.compat's setup
+	-- 	opts = {},
+	-- },
+	{
+		"saghen/blink.cmp",
+		version = "1.*",
+		opts_extend = { "sources.default" },
+		dependencies = {
+			"saghen/blink.lib",
+			-- "saghen/blink.compat",
+			"nvim-tree/nvim-web-devicons",
+			-- optional: provides snippets for the snippet source
+			"rafamadriz/friendly-snippets",
+			"L3MON4D3/LuaSnip",
+		},
+	},
+
 	-- LSP управление
+	{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
+	{ "onsails/lspkind.nvim", event = "InsertEnter" },
 	{ "neovim/nvim-lspconfig", event = "BufReadPre" },
 	{ "williamboman/mason.nvim", cmd = "Mason", build = ":MasonUpdate" },
 	{ "williamboman/mason-lspconfig.nvim", dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } },
@@ -239,6 +271,12 @@ require("lazy").setup({
 				json = { "prettierd", "prettier", stop_after_first = true },
 				markdown = { "prettierd", "prettier", stop_after_first = true },
 				python = { "ruff", "black", stop_after_first = true },
+				-- Shell-подобные типы файлов
+				sh = { "shfmt" },
+				bash = { "shfmt" },
+				zsh = { "shfmt" },
+				shell = { "shfmt" }, -- fallback для прочих shell-скриптов
+				dockerfile = { "shfmt" }, -- Dockerfile тоже можно форматировать через shfmt
 			},
 			-- Set default options
 			default_format_opts = {
@@ -288,7 +326,7 @@ require("lazy").setup({
 	--------------------------------------------------------------------------------
 	-- Утилиты
 	--------------------------------------------------------------------------------
-	{ "f-person/auto-dark-mode.nvim", event = "VeryLazy" },
+	{ "f-person/auto-dark-mode.nvim" },
 	{ "google/vim-searchindex", event = "BufReadPost" },
 	{ "nacro90/numb.nvim", event = "VeryLazy" },
 	{ "powerman/vim-plugin-ruscmd", cmd = "Ruscmd" },
@@ -345,7 +383,8 @@ require("lazy").setup({
 	{ "typed-rocks/ts-worksheet-neovim", ft = "ts" },
 	{ "gpanders/editorconfig.nvim", event = "VeryLazy" },
 	{
-		"epwalsh/obsidian.nvim",
+		"obsidian-nvim/obsidian.nvim",
+		version = "*",
 		ft = "markdown",
 		dependencies = {
 			"ibhagwan/fzf-lua",
@@ -359,8 +398,33 @@ require("lazy").setup({
 		opts = { experimental = { check_rtp_message = false } },
 	},
 	{
-		"karb94/neoscroll.nvim",
-		event = "VeryLazy",
-		opts = { easing = "linear", duration_multiplier = 0.25 },
+		"sphamba/smear-cursor.nvim",
+		opts = { -- Default  Range
+			stiffness = 0.7, -- 0.6      [0, 1]
+			trailing_stiffness = 0.6, -- 0.45     [0, 1]
+			stiffness_insert_mode = 0.6, -- 0.5      [0, 1]
+			trailing_stiffness_insert_mode = 0.6, -- 0.5      [0, 1]
+			damping = 0.85, -- 0.85     [0, 1]
+			damping_insert_mode = 0.90, -- 0.9      [0, 1]
+			distance_stop_animating = 0.3, -- 0.1      > 0
+		},
 	},
+	-- {
+	-- 	"karb94/neoscroll.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = { easing = "linear", duration_multiplier = 0.25 },
+	-- },
+	-- {
+	-- 	"rachartier/tiny-glimmer.nvim",
+	-- 	event = "VeryLazy",
+	-- 	priority = 10, -- Low priority to catch other plugins' keybindings
+	-- 	config = function()
+	-- 		require("tiny-glimmer").setup()
+	-- 	end,
+	-- },
+	--
+	-- {
+	-- 	"tris203/precognition.nvim",
+	-- 	event = "VeryLazy",
+	-- },
 })

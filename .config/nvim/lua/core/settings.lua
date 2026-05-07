@@ -1,73 +1,110 @@
--- Направление перевода с русского на английский
-vim.g.translate_source = "ru"
-vim.g.translate_target = "en"
+-- ============================================================================
+--  settings.lua — базовые настройки Neovim
+-- ============================================================================
 
--- Полное отключение netrw (используется nvim-tree)
+-- Включение дополнительного UI (нестандартный модуль, возможно из вашего окружения)
+require("vim._core.ui2").enable({})
+
+-- Настройки для плагина перевода (направление переводов)
+vim.g.translate_source = "ru" -- исходный язык
+vim.g.translate_target = "en" -- целевой язык
+
+-- ----------------------------------------------------------------------------
+--  Полное отключение встроенного файлового менеджера netrw (используется nvim-tree)
+-- ----------------------------------------------------------------------------
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.netrw_scp_cmd = "scp -q -T"
+vim.g.netrw_scp_cmd = "scp -q -T" -- команда SCP для удаленных файлов
 
------------------------------------------------------------
--- Главные
------------------------------------------------------------
-vim.opt.colorcolumn = "120"
-vim.opt.cursorline = true
+-- ----------------------------------------------------------------------------
+--  Внешний вид и интерфейс
+-- ----------------------------------------------------------------------------
+vim.opt.colorcolumn = "120" -- вертикальная линия на 120-й колонке
+vim.opt.cursorline = true -- подсветка текущей строки
+vim.opt.number = true -- показывать абсолютные номера строк
+vim.opt.relativenumber = true -- показывать относительные номера строк
+vim.opt.mouse = "a" -- включить поддержку мыши во всех режимах
+vim.opt.completeopt = { "menu", "menuone", "noselect" } -- поведение автодополнения
 
-vim.opt.spelllang = { "en_us", "ru" }
+-- ----------------------------------------------------------------------------
+--  Работа с файлами и буферами
+-- ----------------------------------------------------------------------------
+vim.opt.swapfile = false -- отключить .swp файлы
+vim.opt.undofile = true -- сохранять историю отмен в файл
+vim.opt.autoread = true -- автоматически перечитывать файл при изменении извне
+vim.opt.splitright = true -- новые окна открывать справа
+vim.opt.splitbelow = true -- новые окна открывать снизу
 
-vim.opt.swapfile = false
-
-vim.opt.number = true
-vim.opt.relativenumber = true
-
-vim.opt.undofile = true
-
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-
-vim.opt.mouse = "a"
-vim.opt.autoread = true
+-- Автоматически проверять, не изменился ли файл на диске (кроме режима командной строки)
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-	command = "if mode() != 'c' | checktime | endif",
-	pattern = { "*" },
+	pattern = "*",
+	callback = function()
+		if vim.fn.mode() ~= "c" then
+			vim.cmd("checktime")
+		end
+	end,
 })
 
--- search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+-- ----------------------------------------------------------------------------
+--  Поиск и регистр
+-- ----------------------------------------------------------------------------
+vim.opt.ignorecase = true -- игнорировать регистр при поиске
+vim.opt.smartcase = true -- если есть заглавные буквы, поиск становится регистрозависимым
 
--- backspace
-vim.opt.backspace = "indent,eol,start"
+-- ----------------------------------------------------------------------------
+--  Backspace (удаление)
+-- ----------------------------------------------------------------------------
+vim.opt.backspace = "indent,eol,start" -- разрешить backspace в режиме вставки через отступы, концы строк и начало
 
------------------------------------------------------------
--- Табы и отступы
----------------------------------------------------------
-vim.cmd([[
-filetype indent plugin on
-syntax enable
-]])
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.smartindent = true
+-- ----------------------------------------------------------------------------
+--  Табуляция и отступы
+-- ----------------------------------------------------------------------------
+vim.opt.expandtab = true -- использовать пробелы вместо табов
+vim.opt.shiftwidth = 4 -- ширина отступа при >> <<
+vim.opt.tabstop = 4 -- ширина табуляции в пробелах
+vim.opt.smartindent = true -- автоматическая расстановка отступов
 
------------------------------------------------------------
--- Полезные фишки
------------------------------------------------------------
-vim.cmd([[
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-]])
-vim.api.nvim_exec(
-	[[
-augroup YankHighlight
-autocmd!
-autocmd TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
-augroup end
-]],
-	false
-)
+-- Включить определение типа файла, отступы и плагины, а также подсветку синтаксиса
+vim.cmd("filetype indent plugin on")
+vim.cmd("syntax enable")
 
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
+-- ----------------------------------------------------------------------------
+--  Орфография
+-- ----------------------------------------------------------------------------
+vim.opt.spelllang = { "en_us", "ru" } -- языки для проверки орфографии
 
-vim.o.timeout = true
-vim.o.timeoutlen = 300
+-- ----------------------------------------------------------------------------
+--  Полезные автокоманды
+-- ----------------------------------------------------------------------------
+-- 1. Возврат на последнюю позицию курсора при открытии файла
+vim.api.nvim_create_autocmd("BufReadPost", {
+	pattern = "*",
+	callback = function()
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local lcount = vim.api.nvim_buf_line_count(0)
+		if mark[1] > 1 and mark[1] <= lcount then
+			vim.cmd('normal! g`"')
+		end
+	end,
+})
+
+-- 2. Подсветка yanked (скопированного) текста
+vim.api.nvim_create_autocmd("TextYankPost", {
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 700 })
+	end,
+})
+
+-- ----------------------------------------------------------------------------
+--  Таймауты (для сочетаний клавиш)
+-- ----------------------------------------------------------------------------
+vim.o.timeout = true -- использовать таймауты для многокнопочных комбинаций
+vim.o.timeoutlen = 300 -- задержка в миллисекундах (после которой комбинация сбрасывается)
+
+vim.opt.incsearch = true
+vim.opt.magic = true
+vim.opt.inccommand = "split"
+
+vim.opt.title = true
+vim.opt.titlestring = "nvim: %<%F%=%l/%L" -- Покажет путь к файлу и текущую позицию

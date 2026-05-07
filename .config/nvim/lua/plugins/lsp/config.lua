@@ -1,7 +1,8 @@
 vim.lsp.log.set_level("info")
 
 -- nvim-cmp capabilities
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -75,36 +76,6 @@ vim.lsp.enable("markdownlint_lsp")
 
 vim.lsp.config.marksman = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("marksman")
-
--- -- Конфигурация efm-langserver как LSP-сервера
--- vim.lsp.config.efm = {
--- 	cmd = { "efm-langserver" },
--- 	filetypes = { "markdown" },
--- 	init_options = { documentFormatting = false }, -- Отключаем форматирование, если используете conform.nvim
--- 	settings = {
--- 		-- rootMarkers = { ".git/" },
--- 		languages = {
--- 			markdown = {
--- 				-- Инструкция для efm, как запускать markdownlint
--- 				{
--- 					lintCommand = "markdownlint-cli2 --stdin --stdin-filename ${INPUT}",
--- 					lintStdin = true,
--- 					lintFormats = {
--- 						"%f:%l:%c %m",
--- 						"%f:%l %m",
--- 					},
--- 					lintIgnoreExitCode = true,
--- 					lintSource = "markdownlint-cli2",
--- 				},
--- 			},
--- 		},
--- 	},
--- 	-- Подключаем стандартные обработчики
--- 	on_attach = on_attach,
--- 	capabilities = capabilities,
--- }
--- -- Активируем сервер
--- vim.lsp.enable("efm")
 
 vim.lsp.config.yamlls = {
 	on_attach = on_attach,

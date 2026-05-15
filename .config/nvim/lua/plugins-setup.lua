@@ -118,30 +118,21 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	-- nvim-cmp и зависимости
-	{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
-	{ "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
-	{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-	{ "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-	{ "hrsh7th/cmp-path", event = "InsertEnter" },
-	{ "hrsh7th/nvim-cmp", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
-	{ "ray-x/cmp-treesitter", event = "InsertEnter" },
-	{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
-	{
-		"tzachar/cmp-fuzzy-buffer",
-		dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim", "romgrk/fzy-lua-native" },
-		event = "InsertEnter",
-	},
-	{ "David-Kunz/cmp-npm", dependencies = { "nvim-lua/plenary.nvim" }, event = "InsertEnter" },
-
+	-- { "hrsh7th/cmp-buffer", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
+	-- { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
+	-- { "hrsh7th/cmp-path", event = "InsertEnter" },
+	-- { "hrsh7th/nvim-cmp", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
+	-- { "ray-x/cmp-treesitter", event = "InsertEnter" },
+	-- { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
 	-- {
-	-- 	"saghen/blink.compat",
-	-- 	-- use v2.* for blink.cmp v1.*
-	-- 	version = "2.*",
-	-- 	-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
-	-- 	lazy = true,
-	-- 	-- make sure to set opts so that lazy.nvim calls blink.compat's setup
-	-- 	opts = {},
+	-- 	"tzachar/cmp-fuzzy-buffer",
+	-- 	dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim", "romgrk/fzy-lua-native" },
+	-- 	event = "InsertEnter",
 	-- },
+	-- { "David-Kunz/cmp-npm", dependencies = { "nvim-lua/plenary.nvim" }, event = "InsertEnter" },
+
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
@@ -409,11 +400,8 @@ require("lazy").setup({
 			distance_stop_animating = 0.3, -- 0.1      > 0
 		},
 	},
-	-- {
-	-- 	"karb94/neoscroll.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = { easing = "linear", duration_multiplier = 0.25 },
-	-- },
+	--- Firenvim editing mode in browser
+	{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
 	-- {
 	-- 	"rachartier/tiny-glimmer.nvim",
 	-- 	event = "VeryLazy",
@@ -422,7 +410,6 @@ require("lazy").setup({
 	-- 		require("tiny-glimmer").setup()
 	-- 	end,
 	-- },
-	--
 	-- {
 	-- 	"tris203/precognition.nvim",
 	-- 	event = "VeryLazy",

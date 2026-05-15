@@ -1,0 +1,98 @@
+tap "gromgit/fuse"
+tap "sassman/tap"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# Fast, simple fuzzy text selector with an advanced scoring algorithm
+brew "fzy"
+# Interact with Google Gemini AI models from the command-line
+brew "gemini-cli"
+# Distributed revision control system
+brew "git"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Simple terminal UI for git commands
+brew "lazygit"
+# Find what models run on your hardware
+brew "llmfit"
+# Incremental parsing library
+brew "tree-sitter"
+# Ambitious Vim-fork focused on extensibility and agility
+brew "neovim"
+# Shell command parallelization utility
+brew "parallel"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# Prettier daemon
+brew "prettierd"
+# Python version management
+brew "pyenv"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
+# File system client based on SSH File Transfer Protocol
+brew "gromgit/fuse/sshfs-mac"
+# Shell alias manager — manage aliases globally via profiles or per-project
+brew "sassman/tap/amoxide"
+# Interactive TUI for amoxide — manage aliases and profiles visually
+brew "sassman/tap/amoxide-tui"
+cask "font-iosevka"
+# File system integration
+cask "macfuse"
+vscode "42crunch.vscode-openapi"
+vscode "adpyke.codesnap"
+vscode "arcticicestudio.nord-visual-studio-code"
+vscode "christian-kohler.path-intellisense"
+vscode "davidanson.vscode-markdownlint"
+vscode "dbaeumer.vscode-eslint"
+vscode "eamodio.gitlens"
+vscode "editorconfig.editorconfig"
+vscode "esbenp.prettier-vscode"
+vscode "foxundermoon.shell-format"
+vscode "gitlab.gitlab-workflow"
+vscode "huytd.nord-light"
+vscode "jebbs.plantuml"
+vscode "mebrahtom.plantumlpreviewer"
+vscode "mgwg.light-pink-theme"
+vscode "mikestead.dotenv"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
+vscode "ms-python.debugpy"
+vscode "ms-python.isort"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"
+vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vscode-remote.remote-ssh"
+vscode "ms-vscode-remote.remote-ssh-edit"
+vscode "ms-vscode.js-debug-nightly"
+vscode "ms-vscode.remote-explorer"
+vscode "ms-vscode.remote-server"
+vscode "mws-devtools.devtools-agent"
+vscode "orta.vscode-jest"
+vscode "philosowaffle.openapi-designer"
+vscode "pkief.material-icon-theme"
+vscode "quicktype.quicktype"
+vscode "rangav.vscode-thunder-client"
+vscode "redhat.vscode-openshift-connector"
+vscode "redhat.vscode-redhat-account"
+vscode "redhat.vscode-xml"
+vscode "redhat.vscode-yaml"
+vscode "richie5um2.vscode-sort-json"
+vscode "sumneko.lua"
+vscode "svsool.markdown-memo"
+vscode "tim-koehler.helm-intellisense"
+vscode "tyriar.sort-lines"
+vscode "undefined_publisher.chatbotsyntax"
+vscode "venthe.fauxpilot"
+vscode "vscodevim.vim"
+npm "corepack"

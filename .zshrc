@@ -19,14 +19,23 @@ if [[ -n "$ZSH_DEBUGRC" ]]; then
 fi
 
 # =======================================
-#          ZSH-DEFER SETUP (ленивый загрузчик)
+#          ZSH-DEFER SETUP (ленивый загрузчик) с проверкой
 # =======================================
-source ~/zsh-defer/zsh-defer.plugin.zsh
+if [[ -f ~/zsh-defer/zsh-defer.plugin.zsh ]]; then
+  source ~/zsh-defer/zsh-defer.plugin.zsh
+else
+  echo "Warning: zsh-defer not found, loading will be synchronous"
+  # Определяем пустую функцию, чтобы скрипт не падал
+  function zsh-defer() { "$@"; }
+fi
 
 # =======================================
 #       Oh-My-Zsh и ОСНОВНЫЕ ПЕРЕМЕННЫЕ
 # =======================================
 export ZSH="/Users/admakeye/.oh-my-zsh"
+
+# Отключаем тему OMZ, чтобы не перезаписывать промпт Starship
+ZSH_THEME=""
 
 # ========== Performance tweaks ==========
 DISABLE_AUTO_TITLE="true"
@@ -35,20 +44,19 @@ DISABLE_COMPFIX="true"
 DISABLE_MAGIC_FUNCTIONS="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# ========== Тема: Starship (быстрая) или fallback ==========
-# Если Starship не установлен, будет использован минимальный промпт
+# ========== Тема: Starship (быстрая) ==========
 if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"
 else
-  # минимальный промпт (пользователь@хост:путь)
+  # минимальный промпт (пользователь@хост:путь) на случай отсутствия starship
   PROMPT='%F{green}%n@%m %F{blue}%~%f %# '
 fi
 
 # =======================================
 #               ПЛАГИНЫ (только git, остальное лениво)
 # =======================================
-# Сам oh-my-zsh загрузится позже через zsh-defer, а пока только переменная plugins
-plugins=(git) # только git – остальное при необходимости
+# Переменная будет использована при загрузке OMZ ниже
+# (не дублируем здесь, оставляем только внутри отложенного блока)
 
 # =======================================
 #     КЕШИРОВАНИЕ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ (brew)
@@ -106,8 +114,8 @@ compinit -C -d "$ZSH_COMPDUMP" 2>/dev/null
 # =======================================
 #          ПОДКЛЮЧЕНИЕ ОСТАЛЬНЫХ ЧАСТЕЙ OH-MY-ZSH (лениво)
 # =======================================
+# Обратите внимание: ZSH_THEME уже пустая, PROMPT не будет перезаписан
 zsh-defer -c '
-    export ZSH="$HOME/.oh-my-zsh"
     plugins=(git)
     source "$ZSH/oh-my-zsh.sh"
 '
@@ -140,7 +148,7 @@ zsh-defer -c '
 '
 
 # =======================================
-#          НАСТРОЙКА КУРСОРА
+#          НАСТРОЙКА КУРСОРА (закомментирована)
 # =======================================
 # zle_highlight=('default:cursor:blinkingblock')
 # zle_highlight+=('overwrite:cursor:underline')

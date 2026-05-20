@@ -103,40 +103,6 @@ require("blink.cmp").setup(
 			providers = {
 				markview = { module = "blink-markview" },
 			},
-			-- per_filetype = {
-			-- 	markdown = {
-			-- 		-- Не наследуем default (иначе всё повторится)
-			-- 		inherit_defaults = false,
-			-- 		-- Явно перечисляем нужные источники
-			-- 		"obsidian",
-			-- 		"markview", -- markview сам добавил свой источник
-			-- 	},
-			-- },
-			-- per_filetype = {
-			-- 	markdown = {
-			-- 		"obsidian",
-			-- 		"obsidian_refs",
-			-- 		"obsidian_tags",
-			-- 		-- при необходимости: "dictionary", "buffer", "emoji", "path", "snippets"
-			-- 	},
-			-- },
-			-- providers = {
-			-- 	obsidian = {
-			-- 		name = "obsidian",
-			-- 		module = "blink.compat.source",
-			-- 		score_offset = 1000,
-			-- 	},
-			-- 	obsidian_new = {
-			-- 		name = "obsidian_new",
-			-- 		module = "blink.compat.source",
-			-- 		score_offset = 1000,
-			-- 	},
-			-- 	obsidian_tags = {
-			-- 		name = "obsidian_tags",
-			-- 		module = "blink.compat.source",
-			-- 		score_offset = 1000,
-			-- 	},
-			-- },
 		},
 		fuzzy = {
 			implementation = "prefer_rust_with_warning",

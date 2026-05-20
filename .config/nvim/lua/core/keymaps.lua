@@ -123,17 +123,6 @@ wk.add({
 		silent = true,
 	},
 
-	-- Formatting
-	-- {
-	-- 	"<leader>F",
-	-- 	require("conform").format,
-	-- 	desc = "Format Conform",
-	-- 	icon = "󰗈",
-	-- 	mode = "n",
-	-- 	noremap = true,
-	-- 	silent = true,
-	-- },
-
 	-- Test runner (neotest)
 	{
 		"<leader>tt",

@@ -53,12 +53,6 @@ else
 fi
 
 # =======================================
-#               ПЛАГИНЫ (только git, остальное лениво)
-# =======================================
-# Переменная будет использована при загрузке OMZ ниже
-# (не дублируем здесь, оставляем только внутри отложенного блока)
-
-# =======================================
 #     КЕШИРОВАНИЕ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ (brew)
 # =======================================
 if [[ -f "$HOME/.cache/brew-shellenv.zsh" ]]; then
@@ -116,7 +110,7 @@ compinit -C -d "$ZSH_COMPDUMP" 2>/dev/null
 # =======================================
 # Обратите внимание: ZSH_THEME уже пустая, PROMPT не будет перезаписан
 zsh-defer -c '
-    plugins=(git)
+#     plugins=(git)
     source "$ZSH/oh-my-zsh.sh"
 '
 
@@ -156,51 +150,6 @@ zsh-defer -c '
 # =======================================
 #               АЛИАСЫ (все, без defer)
 # =======================================
-alias ga="git add "
-alias gai="git add -i "
-alias gap="git add -p "
-alias gb="git branch "
-alias gba="git branch --all "
-alias gbas="git branch --all --sort=-committerdate "
-alias gc!="git commit --amend -v"
-alias gc="git commit -v "
-alias gca!="git commit -av --amend "
-alias gca="git commit -av "
-alias gcf="git commit --fixup=$1 "
-alias gd="git diff "
-alias gdc="git diff --cached "
-alias gdh="git diff @ "
-alias gds="git diff --staged "
-alias gdsw="git diff --staged --word-diff "
-alias gdt="git difftool "
-alias gdw="git diff --word-diff "
-alias gfa="git fetch --all "
-alias ghh="git hist "
-alias gha="git hist --all "
-alias gk="gitk --all& "
-alias gm="git merge "
-alias gmf="git merge --ff-only "
-alias go-="git checkout -"
-alias go="git checkout "
-alias gp="git push "
-alias gpf="git push --force-with-lease "
-alias gpr="git pull --rebase --autostash "
-alias gr="git reset "
-alias grb="git rebase "
-alias grh="git reset --hard "
-alias gri="git rebase -i --autosquash "
-alias grs="git reset --soft "
-alias gs="git status "
-alias gsb="git status -sb "
-alias gtags="git tag --sort='v:refname' "
-alias gx="gitx --all "
-
-alias vim="nvim"
-alias v="nvim"
-alias oldvim="vim"
-alias oni="oni2"
-alias obs="obsidian"
-
 alias proxy='export http_proxy="http://a.makeev%40mts.ai:${MTSAI_PASSWORD}@proxy-eurotunnel.mts.ai:3128"; export https_proxy=$http_proxy; export all_proxy=$http_proxy'
 alias disproxy='unset http_proxy https_proxy all_proxy'
 
@@ -223,3 +172,6 @@ fi
 if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
+
+# bun completions
+[ -s "/Users/admakeye/.bun/_bun" ] && source "/Users/admakeye/.bun/_bun"

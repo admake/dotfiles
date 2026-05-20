@@ -117,22 +117,6 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
-	-- nvim-cmp и зависимости
-	-- { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-cmdline", event = "CmdlineEnter" },
-	-- { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-nvim-lsp-signature-help", event = "InsertEnter" },
-	-- { "hrsh7th/cmp-path", event = "InsertEnter" },
-	-- { "hrsh7th/nvim-cmp", event = "InsertEnter", dependencies = { "L3MON4D3/LuaSnip" } },
-	-- { "ray-x/cmp-treesitter", event = "InsertEnter" },
-	-- { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
-	-- {
-	-- 	"tzachar/cmp-fuzzy-buffer",
-	-- 	dependencies = { "hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim", "romgrk/fzy-lua-native" },
-	-- 	event = "InsertEnter",
-	-- },
-	-- { "David-Kunz/cmp-npm", dependencies = { "nvim-lua/plenary.nvim" }, event = "InsertEnter" },
-
 	{
 		"saghen/blink.cmp",
 		version = "1.*",
@@ -334,6 +318,54 @@ require("lazy").setup({
 	},
 	{ "folke/which-key.nvim", event = "VeryLazy", opts = {} },
 	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+	},
+	{
 		"weilbith/nvim-code-action-menu",
 		cmd = "CodeActionMenu",
 		config = function()
@@ -386,7 +418,17 @@ require("lazy").setup({
 	{
 		"OXY2DEV/markview.nvim",
 		event = "VeryLazy",
-		opts = { experimental = { check_rtp_message = false } },
+		opts = {
+			preview = {
+				modes = { "n", "c" }, -- Рендеринг включён в нормальном и вставки
+				hybrid_modes = { "n" }, -- Гибридный режим активен только в normal mode
+				linewise_hybrid_mode = true, -- <-- Ключевая опция
+			},
+			markdown = {
+				shift_width = 2, -- Для отступа в 2 пробела
+			},
+			experimental = { check_rtp_message = false },
+		},
 	},
 	{
 		"sphamba/smear-cursor.nvim",
@@ -402,6 +444,13 @@ require("lazy").setup({
 	},
 	--- Firenvim editing mode in browser
 	{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
+	--- Notifications about movings
+	-- {
+	-- 	"m4xshen/hardtime.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = { "MunifTanjim/nui.nvim" },
+	-- 	opts = {},
+	-- },
 	-- {
 	-- 	"rachartier/tiny-glimmer.nvim",
 	-- 	event = "VeryLazy",

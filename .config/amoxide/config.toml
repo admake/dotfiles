@@ -1,0 +1,11 @@
+[aliases]
+obs = "obsidian"
+v = "nvim"
+vv = "nvim /Users/admakeye/vault/"
+
+[shell]
+
+[logging]
+
+[update]
+check = true

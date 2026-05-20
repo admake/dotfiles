@@ -58,10 +58,6 @@ function CreateNoteFromTemplate()
 	client:open_note(new_note)
 end
 
--- Создаём пользовательскую команду и назначаем сочетание клавиш
--- vim.api.nvim_create_user_command("ObsidianFollowSmart", CreateNoteFromTemplate, {})
--- vim.keymap.set("n", "<CR>", "<cmd>ObsidianFollowSmart<CR>", { noremap = true, silent = true })
---
 require("obsidian").setup({
 	ui = { enable = false },
 	legacy_commands = false,
@@ -103,7 +99,7 @@ require("obsidian").setup({
 		-- You can always override this per image by passing a full path to the command instead of just a filename.
 		folder = "assets/imgs", -- This is the default
 		-- A function that determines the text to insert in the note when pasting an image.
-		-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+		-- It takes t.o arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
 		-- This is the default implementation.
 		---@param client obsidian.Client
 		---@param path obsidian.Path the absolute path to the image file
@@ -115,7 +111,7 @@ require("obsidian").setup({
 		confirm_img_paste = false,
 	},
 
-	-- Optional, for templates (see below).
+	-- Optional, for templates (see belo.).
 	templates = {
 		subdir = "templates",
 		date_format = "%Y-%m-%d",

@@ -1,5 +1,4 @@
 local wk = require("which-key")
-
 -- Remap space as leader key.
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
@@ -62,50 +61,98 @@ wk.add({
 		mode = "n",
 	},
 
-	-- Telescope
-	{ "<c-p>", proxy = "<leader>ff", desc = "Find files (proxy)" },
+	-- Snacks Picker (замена Telescope)
 	{
 		"<leader>ff",
 		function()
-			require("telescope.builtin").find_files({ hidden = true })
+			Snacks.picker.files()
 		end,
-		desc = "Find files",
-		mode = "n",
+		desc = "Find Files",
 	},
 	{
 		"<leader>fg",
 		function()
-			require("telescope.builtin").live_grep()
+			Snacks.picker.grep()
 		end,
-		desc = "Files grep",
-		mode = "n",
+		desc = "Grep Text",
 	},
 	{
 		"<leader>fb",
 		function()
-			require("telescope.builtin").buffers()
+			Snacks.picker.buffers()
 		end,
-		desc = "Find buffers",
-		mode = "n",
+		desc = "Buffers",
 	},
 	{
 		"<leader>fh",
 		function()
-			require("telescope.builtin").help_tags()
+			Snacks.picker.help()
 		end,
-		desc = "Find helps",
-		mode = "n",
+		desc = "Help Tags",
 	},
 	{
 		"<leader>fd",
 		function()
-			require("telescope.builtin").diagnostics()
+			Snacks.picker.diagnostics()
 		end,
-		desc = "Find diagnostic",
-		mode = "n",
+		desc = "LSP Diagnostics",
+	},
+	{
+		"<leader>fr",
+		function()
+			Snacks.picker.recent()
+		end,
+		desc = "Recent Files",
+	},
+	{
+		"<leader>fs",
+		function()
+			Snacks.picker.smart()
+		end,
+		desc = "Smart Find (Files/Buffers/Recent)",
 	},
 
-	{ "<leader>lg", ":LazyGit<CR>", desc = "LazyGit" },
+	-- LazyGit теперь через Snacks
+	{
+		"<leader>lg",
+		function()
+			Snacks.lazygit()
+		end,
+		desc = "LazyGit",
+	},
+
+	-- Файловый менеджер Oil (очень быстрое редактирование структуры проекта)
+	{ "-", "<cmd>Oil<cr>", desc = "Open parent directory (Oil)", mode = "n" },
+
+	-- Snacks (утилиты)
+	{
+		"<leader>n",
+		function()
+			Snacks.notifier.show_history()
+		end,
+		desc = "Notification History",
+	},
+	{
+		"<leader>bd",
+		function()
+			Snacks.bufdelete()
+		end,
+		desc = "Delete Buffer",
+	},
+	{
+		"<leader>gB",
+		function()
+			Snacks.gitbrowse()
+		end,
+		desc = "Git Browse",
+	},
+	{
+		"<leader>lg",
+		function()
+			Snacks.lazygit()
+		end,
+		desc = "LazyGit (Snacks)",
+	}, -- Альтернатива твоему LazyGit
 
 	-- NvimTree
 	{ "<leader>b", ":NvimTreeToggle<CR>", desc = "Toggle Tree", mode = "n", noremap = true, silent = true },

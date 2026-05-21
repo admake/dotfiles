@@ -35,15 +35,10 @@ require("lazy").setup({
 	-- UI (Внешний вид и статусные строки)
 	--------------------------------------------------------------------------------
 	{
-		"nvim-tree/nvim-web-devicons",
+		"gbprod/nord.nvim",
 		lazy = true,
 	},
-	{
-		"gbprod/nord.nvim",
-		lazy = false,
-		priority = 1000,
-	},
-	{ "fcancelinha/nordern.nvim", lazy = false, priority = 1000 },
+	{ "fcancelinha/nordern.nvim", lazy = true },
 	{
 		"rmehri01/onenord.nvim",
 		lazy = false,
@@ -52,12 +47,10 @@ require("lazy").setup({
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
 		"akinsho/bufferline.nvim",
 		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
 		"sindrets/diffview.nvim",
@@ -65,13 +58,39 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{ "rhysd/conflict-marker.vim", event = "VeryLazy" },
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = "VeryLazy",
-		main = "ibl", -- для версии 3 необязательно, но можно указать
-		opts = {}, -- конфиг в отдельном файле plugins/indent_blankline.lua
-	},
 	{ "xzbdmw/colorful-menu.nvim" },
+
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			bigfile = { enabled = true },
+			dashboard = { enabled = true },
+			indent = { enabled = true }, -- Заменяет indent-blankline
+			input = { enabled = true }, -- Заменяет dressing.nvim
+			notifier = { enabled = true },
+			scope = { enabled = true },
+			words = { enabled = true },
+			picker = { enabled = true },
+		},
+	},
+	{
+		"stevearc/oil.nvim",
+		cmd = "Oil",
+		opts = {},
+	},
+	{
+		"echasnovski/mini.nvim",
+		version = false,
+		config = function()
+			require("mini.pairs").setup() -- Заменяет nvim-autopairs
+			require("mini.ai").setup() -- Улучшенные текстовые объекты
+			require("mini.surround").setup()
+			require("mini.icons").setup()
+			require("mini.icons").mock_nvim_web_devicons() -- Имитируем старый плагин
+		end,
+	},
 
 	--------------------------------------------------------------------------------
 	-- Навигация и поиск
@@ -79,21 +98,6 @@ require("lazy").setup({
 	{
 		"nvim-tree/nvim-tree.lua",
 		cmd = "NvimTreeToggle",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-	},
-	{
-		"nvim-telescope/telescope.nvim",
-		cmd = "Telescope",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "make",
-				cond = function()
-					return vim.fn.executable("make") == 1
-				end,
-			},
-		},
 	},
 
 	--------------------------------------------------------------------------------
@@ -123,23 +127,18 @@ require("lazy").setup({
 		opts_extend = { "sources.default" },
 		dependencies = {
 			"saghen/blink.lib",
-			-- "saghen/blink.compat",
-			"nvim-tree/nvim-web-devicons",
 			-- optional: provides snippets for the snippet source
 			"rafamadriz/friendly-snippets",
-			"L3MON4D3/LuaSnip",
 		},
 	},
 
 	-- LSP управление
-	{ "L3MON4D3/LuaSnip", event = "InsertEnter" },
 	{ "onsails/lspkind.nvim", event = "InsertEnter" },
 	{ "neovim/nvim-lspconfig", event = "BufReadPre" },
 	{ "williamboman/mason.nvim", cmd = "Mason", build = ":MasonUpdate" },
 	{ "williamboman/mason-lspconfig.nvim", dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim", dependencies = { "williamboman/mason.nvim" } },
 	{ "b0o/schemastore.nvim", lazy = true },
-	{ "ray-x/lsp_signature.nvim", event = "VeryLazy" },
 	{ "bullets-vim/bullets.vim", ft = { "markdown", "text" } },
 
 	--------------------------------------------------------------------------------
@@ -154,8 +153,17 @@ require("lazy").setup({
 		opts = {
 			behavior = { auto_suggestions = true, enable_cursor_planning_mode = true },
 			hints = { enabled = true },
-			provider = "kodify",
+			provider = "gemini",
 			providers = {
+				gemini = {
+					endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
+					model = "gemini-2.5-pro", -- Or "gemini-2.5-flash" for faster responses
+					proxy = os.getenv("https_proxy"), -- подхватываем прокси из системы
+					api_key_name = "GEMINI_API_KEY",
+					temperature = 0,
+					timeout = 30000, -- Timeout in milliseconds
+					max_tokens = 8192,
+				},
 				kodify = {
 					__inherited_from = "openai",
 					api_key_name = "KODIFY_API_KEY",
@@ -173,12 +181,8 @@ require("lazy").setup({
 			"MunifTanjim/nui.nvim",
 			"echasnovski/mini.pick",
 			"folke/snacks.nvim",
-			"hrsh7th/nvim-cmp",
 			"ibhagwan/fzf-lua",
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"stevearc/dressing.nvim",
 			{
 				"HakonHarnes/img-clip.nvim",
 				event = "VeryLazy",
@@ -228,10 +232,8 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter",
 		},
 		lazy = false,
+		opts = {},
 	},
-	{ "windwp/nvim-autopairs", event = "InsertEnter", opts = {} }, -- замена lexima.vim
-	{ "echasnovski/mini.surround", version = "*", event = "VeryLazy", config = true },
-	{ "numToStr/Comment.nvim", keys = { { "gc", mode = { "n", "v" }, desc = "Comment" } }, opts = {} },
 	-- Форматирование (conform.nvim)
 	{
 		"stevearc/conform.nvim",
@@ -269,54 +271,33 @@ require("lazy").setup({
 	},
 
 	--------------------------------------------------------------------------------
-	-- Git
-	--------------------------------------------------------------------------------
-	{ "lewis6991/gitsigns.nvim", event = "BufReadPost", opts = {} },
-	{
-		"NeogitOrg/neogit",
-		cmd = "Neogit",
-		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
-	},
-
-	{
-		"kdheepak/lazygit.nvim",
-		lazy = false,
-		cmd = {
-			"LazyGit",
-			"LazyGitConfig",
-			"LazyGitCurrentFile",
-			"LazyGitFilter",
-			"LazyGitFilterCurrentFile",
-		},
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
-		config = function()
-			require("telescope").load_extension("lazygit")
-		end,
-	},
-
-	--------------------------------------------------------------------------------
 	-- Утилиты
 	--------------------------------------------------------------------------------
 	{ "f-person/auto-dark-mode.nvim" },
-	{ "google/vim-searchindex", event = "BufReadPost" },
 	{ "nacro90/numb.nvim", event = "VeryLazy" },
-	{ "powerman/vim-plugin-ruscmd", cmd = "Ruscmd" },
 	{ "skanehira/translate.vim", cmd = "Translate" },
 	{ "stsewd/gx-extended.vim", keys = { "gx" } },
 	{ "tpope/vim-repeat", keys = { "." } },
 	{ "tpope/vim-unimpaired", keys = { "[", "]", "y[", "y]" } },
-	{ "airblade/vim-rooter", event = "VeryLazy" },
-	{ "dstein64/vim-startuptime", cmd = "StartupTime" },
 	{
 		"folke/trouble.nvim",
 		cmd = "Trouble",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
 	},
-	{ "folke/which-key.nvim", event = "VeryLazy", opts = {} },
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- Добавьте это, чтобы which-key понимал перемапленные клавиши
+			delay = 300,
+		},
+		-- config = function(_, opts)
+		-- 	local wk = require("which-key")
+		-- 	wk.setup(opts)
+		-- 	-- Интеграция с langmapper
+		-- 	require("langmapper").setup_which_key()
+		-- end,
+	},
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -366,15 +347,7 @@ require("lazy").setup({
 		},
 	},
 	{
-		"weilbith/nvim-code-action-menu",
-		cmd = "CodeActionMenu",
-		config = function()
-			require("code_action_menu")
-		end,
-	},
-	{
 		"kosayoda/nvim-lightbulb",
-		dependencies = { "antoinemadec/FixCursorHold.nvim" },
 		event = "VeryLazy",
 	},
 
@@ -385,7 +358,6 @@ require("lazy").setup({
 		"nvim-neotest/neotest",
 		cmd = "Neotest",
 		dependencies = {
-			"antoinemadec/FixCursorHold.nvim",
 			"haydenmeade/neotest-jest",
 			"nvim-lua/plenary.nvim",
 			"nvim-neotest/nvim-nio",
@@ -404,7 +376,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "typed-rocks/ts-worksheet-neovim", ft = "ts" },
-	{ "gpanders/editorconfig.nvim", event = "VeryLazy" },
 	{
 		"obsidian-nvim/obsidian.nvim",
 		version = "*",
@@ -425,7 +396,10 @@ require("lazy").setup({
 				linewise_hybrid_mode = true, -- <-- Ключевая опция
 			},
 			markdown = {
-				shift_width = 2, -- Для отступа в 2 пробела
+				list_items = {
+					shift_width = 2,
+					indent_size = 2,
+				},
 			},
 			experimental = { check_rtp_message = false },
 		},
@@ -442,25 +416,25 @@ require("lazy").setup({
 			distance_stop_animating = 0.3, -- 0.1      > 0
 		},
 	},
+	{
+		"j-hui/fidget.nvim",
+		opts = {},
+	},
 	--- Firenvim editing mode in browser
 	{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
-	--- Notifications about movings
-	-- {
-	-- 	"m4xshen/hardtime.nvim",
-	-- 	lazy = false,
-	-- 	dependencies = { "MunifTanjim/nui.nvim" },
-	-- 	opts = {},
-	-- },
-	-- {
-	-- 	"rachartier/tiny-glimmer.nvim",
-	-- 	event = "VeryLazy",
-	-- 	priority = 10, -- Low priority to catch other plugins' keybindings
-	-- 	config = function()
-	-- 		require("tiny-glimmer").setup()
-	-- 	end,
-	-- },
-	-- {
-	-- 	"tris203/precognition.nvim",
-	-- 	event = "VeryLazy",
-	-- },
+	{
+		"Wansmer/langmapper.nvim",
+		lazy = false,
+		priority = 1000, -- Должен загрузиться раньше всех кеймапов
+		config = function()
+			local lm = require("langmapper")
+			lm.setup({
+				-- Автоматически оборачивать vim.keymap.set
+				map_all_ctrl = true,
+			})
+			-- Это "магия", которая заставляет все последующие вызовы vim.keymap.set
+			-- (в core/keymaps.lua, lsp/config.lua и т.д.) работать для обеих раскладок
+			lm.hack_get_keymap()
+		end,
+	},
 })

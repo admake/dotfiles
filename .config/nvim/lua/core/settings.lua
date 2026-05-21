@@ -14,7 +14,18 @@ vim.g.translate_target = "en" -- целевой язык
 -- ----------------------------------------------------------------------------
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.netrw_scp_cmd = "scp -q -T" -- команда SCP для удаленных файлов
+-- vim.g.netrw_scp_cmd = "scp -q -T" -- команда SCP для удаленных файлов
+
+-- 1. Заглушка для нового модуля ui2 ( Neovim 0.12+ )
+-- Подавляет ошибку E117: Unknown function: netrw#LocalBrowseCheck при отключенном netrw
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		if vim.g.loaded_netrw == 1 then
+			-- Создаем пустую функцию в пространстве имен netrw
+			vim.fn["netrw#LocalBrowseCheck"] = function() end
+		end
+	end,
+})
 
 -- ----------------------------------------------------------------------------
 --  Внешний вид и интерфейс
@@ -108,3 +119,16 @@ vim.opt.inccommand = "split"
 
 vim.opt.title = true
 vim.opt.titlestring = "nvim: %<%F%=%l/%L" -- Покажет путь к файлу и текущую позицию
+
+-- Настройка langmap для Neovim 0.12+
+-- ВАЖНО: Количество символов до и после точки с запятой должно быть идентичным (66 символов)
+local ru = "ёйцукенгшщзхъфывапролджэячсмитьбю."
+	.. "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,"
+local en = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./" .. '~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?'
+
+-- Экранируем спецсимволы для парсера vim
+local function escape(str)
+	return str:gsub('([\\;," ])', "\\%1")
+end
+
+vim.opt.langmap = escape(ru) .. ";" .. escape(en)

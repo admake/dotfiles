@@ -1,7 +1,5 @@
 vim.lsp.log.set_level("info")
 
--- nvim-cmp capabilities
--- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local on_attach = function(client, bufnr)
@@ -89,7 +87,6 @@ vim.lsp.config.yamlls = {
 		},
 	},
 }
-vim.lsp.config.yamlls = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("yamlls")
 
 vim.lsp.config.bashls = { on_attach = on_attach, capabilities = capabilities }
@@ -139,6 +136,3 @@ vim.lsp.enable("ruff")
 
 vim.lsp.config.pylsp = { on_attach = on_attach, capabilities = capabilities }
 vim.lsp.enable("pylsp")
-
--- lsp_signature
-require("lsp_signature").setup({ bind = true, handler_opts = { border = "single" } })

@@ -96,7 +96,7 @@ require("blink.cmp").setup(
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	{
-		snippets = { preset = "luasnip" },
+		snippets = { preset = "default" },
 
 		sources = {
 			default = { "lsp", "path", "snippets", "buffer", "obsidian", "markview" },
@@ -165,8 +165,6 @@ require("blink.cmp").setup(
 				function(ctx)
 					if ctx.is_visible then
 						return ctx.select_next()
-					elseif require("luasnip").expand_or_jumpable() then
-						return require("luasnip").expand_or_jump()
 					else
 						return false
 					end
@@ -177,9 +175,6 @@ require("blink.cmp").setup(
 				function(ctx)
 					if ctx.is_visible then
 						return ctx.select_prev()
-					elseif require("luasnip").jumpable(-1) then
-						require("luasnip").jump(-1)
-						return true
 					else
 						return false
 					end

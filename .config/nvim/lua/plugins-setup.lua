@@ -34,16 +34,18 @@ require("lazy").setup({
 	--------------------------------------------------------------------------------
 	-- UI (Внешний вид и статусные строки)
 	--------------------------------------------------------------------------------
+	-- lua/plugins/rose-pine.lua
 	{
-		"gbprod/nord.nvim",
-		lazy = true,
-	},
-	{ "fcancelinha/nordern.nvim", lazy = true },
-	{
-		"rmehri01/onenord.nvim",
+		"rose-pine/neovim",
+		name = "rose-pine",
 		lazy = false,
 		priority = 1000,
 	},
+	-- {
+	-- 	"rmehri01/onenord.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
@@ -57,9 +59,7 @@ require("lazy").setup({
 		cmd = "DiffviewOpen",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
-	{ "rhysd/conflict-marker.vim", event = "VeryLazy" },
 	{ "xzbdmw/colorful-menu.nvim" },
-
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
@@ -72,7 +72,7 @@ require("lazy").setup({
 			notifier = { enabled = true },
 			scope = { enabled = true },
 			words = { enabled = true },
-			picker = { enabled = true },
+			picker = { enabled = true, hidden = true },
 		},
 	},
 	{
@@ -128,12 +128,11 @@ require("lazy").setup({
 		dependencies = {
 			"saghen/blink.lib",
 			-- optional: provides snippets for the snippet source
-			"rafamadriz/friendly-snippets",
+			-- "rafamadriz/friendly-snippets",
 		},
 	},
 
 	-- LSP управление
-	{ "onsails/lspkind.nvim", event = "InsertEnter" },
 	{ "neovim/nvim-lspconfig", event = "BufReadPre" },
 	{ "williamboman/mason.nvim", cmd = "Mason", build = ":MasonUpdate" },
 	{ "williamboman/mason-lspconfig.nvim", dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" } },
@@ -276,7 +275,6 @@ require("lazy").setup({
 	{ "f-person/auto-dark-mode.nvim" },
 	{ "nacro90/numb.nvim", event = "VeryLazy" },
 	{ "skanehira/translate.vim", cmd = "Translate" },
-	{ "stsewd/gx-extended.vim", keys = { "gx" } },
 	{ "tpope/vim-repeat", keys = { "." } },
 	{ "tpope/vim-unimpaired", keys = { "[", "]", "y[", "y]" } },
 	{
@@ -291,12 +289,6 @@ require("lazy").setup({
 			-- Добавьте это, чтобы which-key понимал перемапленные клавиши
 			delay = 300,
 		},
-		-- config = function(_, opts)
-		-- 	local wk = require("which-key")
-		-- 	wk.setup(opts)
-		-- 	-- Интеграция с langmapper
-		-- 	require("langmapper").setup_which_key()
-		-- end,
 	},
 	{
 		"folke/flash.nvim",

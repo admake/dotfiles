@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 ------------
--- Mappings.
+-- Mappings
 ------------
 wk.add({
 	-- Move lines (normal, insert, visual)
@@ -65,7 +65,7 @@ wk.add({
 	{
 		"<leader>ff",
 		function()
-			Snacks.picker.files()
+			Snacks.picker.files({ hidden = true })
 		end,
 		desc = "Find Files",
 	},
@@ -152,7 +152,10 @@ wk.add({
 			Snacks.lazygit()
 		end,
 		desc = "LazyGit (Snacks)",
-	}, -- Альтернатива твоему LazyGit
+	},
+
+	-- Obsidian
+	{ "<leader>o", ":Obsidian<CR>", desc = "Obsidian picker", mode = "n", noremap = true, silent = true },
 
 	-- NvimTree
 	{ "<leader>b", ":NvimTreeToggle<CR>", desc = "Toggle Tree", mode = "n", noremap = true, silent = true },

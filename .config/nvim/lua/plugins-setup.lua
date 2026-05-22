@@ -1,4 +1,3 @@
-vim.g.markview_blink_loaded = true
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -369,31 +368,18 @@ require("lazy").setup({
 	},
 	{ "typed-rocks/ts-worksheet-neovim", ft = "ts" },
 	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = { completions = { lsp = { enabled = true } } },
+	},
+	{
 		"obsidian-nvim/obsidian.nvim",
 		version = "*",
 		ft = "markdown",
 		dependencies = {
 			"ibhagwan/fzf-lua",
 			"godlygeek/tabular",
-			"OXY2DEV/markview.nvim",
-		},
-	},
-	{
-		"OXY2DEV/markview.nvim",
-		event = "VeryLazy",
-		opts = {
-			preview = {
-				modes = { "n", "c" }, -- Рендеринг включён в нормальном и вставки
-				hybrid_modes = { "n" }, -- Гибридный режим активен только в normal mode
-				linewise_hybrid_mode = true, -- <-- Ключевая опция
-			},
-			markdown = {
-				list_items = {
-					shift_width = 2,
-					indent_size = 2,
-				},
-			},
-			experimental = { check_rtp_message = false },
 		},
 	},
 	{

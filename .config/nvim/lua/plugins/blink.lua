@@ -1,5 +1,3 @@
-vim.g.markview_blink_loaded = true
-
 require("colorful-menu").setup({
 	ls = {
 		lua_ls = {
@@ -99,10 +97,7 @@ require("blink.cmp").setup(
 		snippets = { preset = "default" },
 
 		sources = {
-			default = { "lsp", "path", "snippets", "buffer", "obsidian", "markview" },
-			providers = {
-				markview = { module = "blink-markview" },
-			},
+			default = { "lsp", "path", "snippets", "buffer", "obsidian" },
 		},
 		fuzzy = {
 			implementation = "prefer_rust_with_warning",

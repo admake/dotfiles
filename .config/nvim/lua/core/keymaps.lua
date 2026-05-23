@@ -1,3 +1,4 @@
+_G.Snacks = require("snacks")
 local wk = require("which-key")
 -- Remap space as leader key.
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })

@@ -3,7 +3,6 @@
 -----------------------------------------------------------
 require("plugins-setup")
 require("auto_dark_mode")
-require("core.colorscheme")
 require("core.diagnostic")
 require("core.keymaps")
 require("core.options")

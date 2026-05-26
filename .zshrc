@@ -160,10 +160,11 @@ export NO_PROXY="github.com,api.github.com,uploads.github.com,objects.githubuser
 export no_proxy="$NO_PROXY"
 
 # =======================================
-#          ОТЛОЖЕННЫЙ ЗАПУСК eval (am)
+#          ОТЛОЖЕННЫЙ ЗАПУСК eval (am, typo)
 # =======================================
 if command -v am &>/dev/null; then
   zsh-defer -c 'eval "$(am init zsh)"'
+  zsh-defer -c 'eval "$(typo init zsh)"'
 fi
 
 # =======================================
@@ -172,6 +173,3 @@ fi
 if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
-
-# bun completions
-[ -s "/Users/admakeye/.bun/_bun" ] && source "/Users/admakeye/.bun/_bun"

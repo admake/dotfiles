@@ -7,7 +7,7 @@ cursor-style-blink = true
 shell-integration-features = no-cursor
 font-family = "Iosevka Nerd Font"
 font-style = Semibold
-font-size = 15
+font-size = 16
 # font-family = "Iosevka"
 # font-style = ss05
 

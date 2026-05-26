@@ -1,5 +1,6 @@
 tap "gromgit/fuse"
 tap "sassman/tap"
+tap "yuluo-yx/typo", "https://github.com/yuluo-yx/typo"
 # Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
 # Command-line fuzzy finder written in Go
@@ -10,6 +11,8 @@ brew "fzy"
 brew "gemini-cli"
 # Distributed revision control system
 brew "git"
+# Image processing tools collection
+brew "graphicsmagick"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands
@@ -24,6 +27,8 @@ brew "neovim"
 brew "parallel"
 # Package compiler and linker metadata toolkit
 brew "pkgconf"
+# Paste PNG into files
+brew "pngpaste"
 # Prettier daemon
 brew "prettierd"
 # Python version management
@@ -44,6 +49,8 @@ brew "gromgit/fuse/sshfs-mac"
 brew "sassman/tap/amoxide"
 # Interactive TUI for amoxide — manage aliases and profiles visually
 brew "sassman/tap/amoxide-tui"
+# Command auto-correction tool
+brew "yuluo-yx/typo/typo"
 cask "font-iosevka"
 # File system integration
 cask "macfuse"
@@ -92,7 +99,6 @@ vscode "sumneko.lua"
 vscode "svsool.markdown-memo"
 vscode "tim-koehler.helm-intellisense"
 vscode "tyriar.sort-lines"
-vscode "undefined_publisher.chatbotsyntax"
 vscode "venthe.fauxpilot"
 vscode "vscodevim.vim"
 npm "corepack"

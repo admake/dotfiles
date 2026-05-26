@@ -1,19 +1,2 @@
------------------------------------------------------------
--- Импорт модулей lua
------------------------------------------------------------
-require("plugins-setup")
-require("auto_dark_mode")
-require("core.diagnostic")
-require("core.keymaps")
-require("core.options")
-require("core.settings")
-require("plugins.bufferline")
-require("plugins.lsp.config")
-require("plugins.lsp.mason")
-require("plugins.lsp.options")
-require("plugins.lualine")
-require("plugins.neotest")
-require("plugins.blink")
-require("plugins.nvim-tree")
-require("plugins.obsidian")
-require("plugins.others")
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")

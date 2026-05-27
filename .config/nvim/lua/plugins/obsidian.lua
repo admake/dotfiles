@@ -2,12 +2,12 @@ return {
   {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
-    -- ft = "markdown",
     cmd = "Obsidian",
     dependencies = {
       "ibhagwan/fzf-lua",
       "godlygeek/tabular",
     },
+    keys = { { "<leader>o", ":Obsidian<CR>", { desc = "Obsidian picker" } } },
     opts = {
       picker = { name = "snacks.picker" },
       ui = { enable = false },

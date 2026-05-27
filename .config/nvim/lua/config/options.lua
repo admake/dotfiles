@@ -15,9 +15,12 @@ local function escape(str)
 end
 local ru = "ёйцукенгшщзхъфывапролджэячсмитьбю"
   .. "ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ"
-local en = "`qwertyuiop[]asdfghjkl;'zxcvbnm,." .. '~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>'
+-- .. ".,"
+local en = "`qwertyuiop[]asdfghjkl;'zxcvbnm,." .. '~QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>' -- [[ .. "/?" ]]
 vim.opt.langmap = escape(ru) .. ";" .. escape(en)
 
 -- In case you don't want to use `:LazyExtras`,
 -- then you need to set the option below.
 vim.g.lazyvim_picker = "snacks"
+
+vim.g.loaded_perl_provider = 0

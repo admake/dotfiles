@@ -91,8 +91,14 @@ export PATH="$VOLTA_HOME/bin:$BUN_INSTALL/bin:$PATH"
 # =======================================
 #          FZF НАСТРОЙКИ (ленивая инициализация)
 # =======================================
-export FZF_DEFAULT_OPTS="--height 100% --border --preview 'bat --style=numbers --color=always {}'"
-export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'
+export FZF_DEFAULT_OPTS="--height 100% --border --preview 'bat --style=numbers --color=always {} --theme auto:system'"
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+export FZF_COMPLETION_DIR_OPTS='--walker dir,follow,hidden'
+export FZF_CTRL_T_OPTS="
+--preview '([[ -f {} ]] && (bat --style=numbers,changes --color=always {} --theme auto:system || cat {})) || ([[ -d {} ]] && (tree -C {} | head -200)) || echo {} 2> /dev/null'
+--preview-window right:60%:wrap
+"
 
 # =======================================
 #          КОМПЛЕШЕНЫ (кешированные)

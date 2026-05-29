@@ -1,7 +1,7 @@
 [aliases]
 obs = "obsidian"
 v = "nvim"
-vv = "nvim /Users/admakeye/vault/"
+vv = 'nvim ~/vault/ -c "cd /Users/admakeye/vault"'
 
 [shell]
 

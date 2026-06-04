@@ -44,6 +44,7 @@ return {
         -- Trigger completion at 2 chars.
         min_chars = 2,
       },
+
       attachments = {
         -- The default folder to place images in via `:ObsidianPasteImg`.
         -- If this is a relative path it will be interpreted as relative to the vault root.
@@ -120,9 +121,6 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = "markdown",
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
     opts = { completions = { lsp = { enabled = true } } },
   },
 }

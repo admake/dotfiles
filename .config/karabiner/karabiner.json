@@ -5,6 +5,55 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Mouse 4 Switch Left",
+                        "manipulators": [
+                            {
+                                "from": { "pointing_button": "button4" },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": ["left_control"],
+                                        "repeat": false
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Mouse 5 Switch Right",
+                        "manipulators": [
+                            {
+                                "from": { "pointing_button": "button5" },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": ["left_control"],
+                                        "repeat": false
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Mouse 3 Desktop Switcher",
+                        "manipulators": [
+                            {
+                                "from": { "pointing_button": "button3" },
+                                "to": [
+                                    {
+                                        "key_code": "up_arrow",
+                                        "lazy": false,
+                                        "modifiers": ["left_control"],
+                                        "repeat": false
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Control+Option+Command+U (DarkMode)",
                         "manipulators": [
                             {
@@ -23,13 +72,13 @@
                         ]
                     },
                     {
-                        "description": "Change right_command+hjkl to arrow keys",
+                        "description": "Change LEFT_command+hjkl to arrow keys",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
-                                        "mandatory": ["right_command"],
+                                        "mandatory": ["left_command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -40,7 +89,7 @@
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
-                                        "mandatory": ["right_command"],
+                                        "mandatory": ["left_command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -51,7 +100,7 @@
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
-                                        "mandatory": ["right_command"],
+                                        "mandatory": ["left_command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -62,7 +111,7 @@
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
-                                        "mandatory": ["right_command"],
+                                        "mandatory": ["left_command"],
                                         "optional": ["any"]
                                     }
                                 },
@@ -76,24 +125,11 @@
             "devices": [
                 {
                     "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 641,
-                        "vendor_id": 1452
+                        "is_pointing_device": true,
+                        "product_id": 45098,
+                        "vendor_id": 1133
                     },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "grave_accent_and_tilde" },
-                            "to": [{ "key_code": "left_shift" }]
-                        },
-                        {
-                            "from": { "key_code": "non_us_backslash" },
-                            "to": [{ "key_code": "grave_accent_and_tilde" }]
-                        },
-                        {
-                            "from": { "key_code": "right_command" },
-                            "to": [{ "key_code": "delete_forward" }]
-                        }
-                    ]
+                    "ignore_vendor_events": true
                 }
             ],
             "name": "Default profile",

@@ -8,6 +8,7 @@
 #   volta completions zsh > ~/.zsh/_volta
 #   bw completion --shell zsh > ~/.zsh/_bitwarden
 #   glow completion zsh > ~/.zsh/_glow
+#   bat --completion zsh > ~/.zsh/_bat
 #   # если не используете Starship, установите: brew install starship
 # =======================================
 
@@ -91,10 +92,11 @@ export PATH="$VOLTA_HOME/bin:$BUN_INSTALL/bin:$PATH"
 # =======================================
 #          FZF НАСТРОЙКИ (ленивая инициализация)
 # =======================================
-export FZF_DEFAULT_OPTS="--height 100% --border --preview 'bat --style=numbers --color=always {} --theme auto:system'"
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_OPTS="--height 100% --border --preview 'bat --style=numbers --color=always {} --theme auto:system'"
 export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
 export FZF_COMPLETION_DIR_OPTS='--walker dir,follow,hidden'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="
 --preview '([[ -f {} ]] && (bat --style=numbers,changes --color=always {} --theme auto:system || cat {})) || ([[ -d {} ]] && (tree -C {} | head -200)) || echo {} 2> /dev/null'
 --preview-window right:60%:wrap
@@ -116,7 +118,6 @@ compinit -C -d "$ZSH_COMPDUMP" 2>/dev/null
 # =======================================
 # Обратите внимание: ZSH_THEME уже пустая, PROMPT не будет перезаписан
 zsh-defer -c '
-#     plugins=(git)
     source "$ZSH/oh-my-zsh.sh"
 '
 
@@ -127,6 +128,7 @@ zsh-defer -c '[ -f "$HOME/.zsh/_kubectl" ] && source "$HOME/.zsh/_kubectl"'
 zsh-defer -c '[ -f "$HOME/.zsh/_volta" ] && source "$HOME/.zsh/_volta"'
 zsh-defer -c '[ -f "$HOME/.zsh/_bitwarden" ] && source "$HOME/.zsh/_bitwarden"'
 zsh-defer -c '[ -f "$HOME/.zsh/_glow" ] && source "$HOME/.zsh/_glow"'
+zsh-defer -c '[ -f "$HOME/.zsh/_bat" ] && source "$HOME/.zsh/_bat"'
 zsh-defer -c '[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"'
 
 # =======================================

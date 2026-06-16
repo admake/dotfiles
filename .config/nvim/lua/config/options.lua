@@ -2,6 +2,12 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Default clipboard buffer
+vim.opt.clipboard = ""
+
+--
+vim.o.winborder = "single"
+
 --  Орфография
 vim.opt.spelllang = { "en_us", "ru" } -- языки для проверки орфографии
 

@@ -1,3 +1,4 @@
+tap "aprilnea/tap"
 tap "gromgit/fuse"
 tap "sassman/tap"
 tap "yuluo-yx/typo", "https://github.com/yuluo-yx/typo"
@@ -9,16 +10,22 @@ brew "fzf"
 brew "fzy"
 # Interact with Google Gemini AI models from the command-line
 brew "gemini-cli"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
 # Distributed revision control system
 brew "git"
 # Image processing tools collection
 brew "graphicsmagick"
+# Tools and libraries to manipulate images in select formats
+brew "imagemagick"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Find what models run on your hardware
 brew "llmfit"
+# CLI for Mermaid library
+brew "mermaid-cli"
 # Incremental parsing library
 brew "tree-sitter"
 # Ambitious Vim-fork focused on extensibility and agility
@@ -39,18 +46,14 @@ brew "python@3.9"
 brew "ripgrep"
 # Cross-shell prompt for astronauts
 brew "starship"
+# Modernized, complete, self-contained TeX/LaTeX engine
+brew "tectonic"
+# Official tldr client written in Rust
+brew "tlrc"
 # Parser generator tool
 brew "tree-sitter-cli"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
-# File system client based on SSH File Transfer Protocol
-brew "gromgit/fuse/sshfs-mac"
-# Shell alias manager — manage aliases globally via profiles or per-project
-brew "sassman/tap/amoxide"
-# Interactive TUI for amoxide — manage aliases and profiles visually
-brew "sassman/tap/amoxide-tui"
-# Command auto-correction tool
-brew "yuluo-yx/typo/typo"
 cask "font-iosevka"
 # File system integration
 cask "macfuse"

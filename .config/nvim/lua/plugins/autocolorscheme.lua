@@ -1,5 +1,15 @@
 return {
-  { "rose-pine/neovim" },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = {
+      styles = {
+        bold = true,
+        italic = true,
+        transparency = true,
+      },
+    },
+  },
   {
     "f-person/auto-dark-mode.nvim",
     lazy = false,
@@ -9,12 +19,12 @@ return {
       update_interval = 250,
 
       set_dark_mode = function()
-        vim.opt.background = "dark"
+        -- vim.opt.background = "dark"
         vim.cmd("colorscheme rose-pine-moon")
       end,
 
       set_light_mode = function()
-        vim.opt.background = "light"
+        -- vim.opt.background = "light"
         vim.cmd("colorscheme rose-pine-dawn")
       end,
     },

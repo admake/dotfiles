@@ -5,6 +5,51 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Caps Lock → Ctrl when held, Esc when tapped",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "caps_lock" },
+                                "to": [{ "key_code": "left_control" }],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Right Command → F13 (then assign F13 to language switch in System Settings)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "f13" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Both Shifts (any order, within 200ms) → Language Switch (F13)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        { "key_code": "left_shift" },
+                                        { "key_code": "right_shift" }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "insensitive",
+                                        "key_up_order": "insensitive",
+                                        "to_after_key_up": [{ "key_code": "left_shift" }]
+                                    }
+                                },
+                                "parameters": { "basic.simultaneous_threshold_milliseconds": 200 },
+                                "to": [{ "key_code": "f13" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Mouse 4 Switch Left",
                         "manipulators": [
                             {
@@ -55,6 +100,7 @@
                     },
                     {
                         "description": "Control+Option+Command+U (DarkMode)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -73,6 +119,7 @@
                     },
                     {
                         "description": "Change LEFT_command+hjkl to arrow keys",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {

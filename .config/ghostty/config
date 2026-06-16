@@ -1,15 +1,25 @@
 # Automatic dark/light switching
 # theme = dark:Nord,light:Nord Light
 theme = dark:Rose Pine Moon,light:Rose Pine Dawn
+
 cursor-style = block
 cursor-style-blink = true
-# shell-integration-features = cursor,sudo,title
-shell-integration-features = no-cursor
+
 font-family = "Iosevka Nerd Font"
 font-style = Semibold
-font-size = 16
+font-size = 17
 # font-family = "Iosevka"
 # font-style = ss05
+
+# Use native macOS liquid glass blur
+background-blur = macos-glass-regular
+# background-blur = macos-glass-clear # Use this for a more transparent look
+
+# Adjust the opacity (lower = more glass-like)
+background-opacity = 0.8
+
+# shell-integration-features = cursor,sudo,title
+shell-integration-features = no-cursor
 
 # This is the configuration file for Ghostty.
 #

@@ -4,22 +4,23 @@ theme = dark:Rose Pine Moon,light:Rose Pine Dawn
 
 cursor-style = block
 cursor-style-blink = true
+cursor-color = cell-foreground
 
 font-family = "Iosevka Nerd Font"
 font-style = Semibold
 font-size = 17
-# font-family = "Iosevka"
-# font-style = ss05
+bold-is-bright = true
 
 # Use native macOS liquid glass blur
 background-blur = macos-glass-regular
-# background-blur = macos-glass-clear # Use this for a more transparent look
+# background-blur = macos-glass-clear
 
 # Adjust the opacity (lower = more glass-like)
-background-opacity = 0.8
+background-opacity = 0.9
 
-# shell-integration-features = cursor,sudo,title
 shell-integration-features = no-cursor
+
+window-theme = ghostty
 
 # This is the configuration file for Ghostty.
 #

@@ -4,6 +4,7 @@ ly = "yadm enter lazygit"
 obs = "obsidian"
 v = "nvim"
 vv = 'nvim ~/vault/ -c "cd /Users/admakeye/vault"'
+ym = "~/Downloads/yplayer-aarch64-apple-darwin"
 
 [shell]
 

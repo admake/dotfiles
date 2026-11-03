@@ -9,7 +9,7 @@ return {
     picker = { enabled = true, hidden = true },
     scope = { enabled = true },
     scroll = { enabled = false },
-    statuscolumn = { enabled = false }, -- we set this in options.lua
+    statuscolumn = { enabled = true }, -- we set this in options.lua
     toggle = { map = LazyVim.safe_keymap_set },
     words = { enabled = true },
   },

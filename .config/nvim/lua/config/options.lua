@@ -6,7 +6,7 @@
 vim.opt.clipboard = ""
 
 --
-vim.o.winborder = "single"
+vim.o.winborder = "rounded"
 
 --  Орфография
 vim.opt.spelllang = { "en_us", "ru" } -- языки для проверки орфографии

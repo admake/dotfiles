@@ -1,0 +1,18 @@
+return {
+  "mawkler/modicator.nvim",
+  event = "ModeChanged",
+  dependencies = { "rose-pine/neovim" },
+  opts = {
+    show_warnings = true,
+    highlights = {
+      -- Default options for bold/italic
+      defaults = {
+        bold = true,
+        italic = true,
+        -- standout = true,
+        -- reverse = true,
+      },
+    },
+    use_cursorline_background = true,
+  },
+}

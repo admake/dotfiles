@@ -37,8 +37,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client and client.name == "obsidian-ls" then
       client.server_capabilities.completionProvider.triggerCharacters = chars -- HACK:
-      vim.bo[buf].completeopt = "menuone,noselect,fuzzy,nosort" -- noselect to make sure no accidentally accept and create new notes, others are not strictly necessary, adjust to your taste, see `:h completeopt'
-      vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
+      vim.opt.completeopt = "menuone,noselect,fuzzy,nosort" -- noselect to make sure no accidentally accept and create new notes, others are not strictly necessary, adjust to your taste, see `:h completeopt'
+      -- vim.lsp.completion.enable(true, client.id, buf, { autotrigger = true })
     end
   end,
 })

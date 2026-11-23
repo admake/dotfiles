@@ -1,7 +1,6 @@
 return {
   {
     "obsidian-nvim/obsidian.nvim",
-    version = "*",
     cmd = "Obsidian",
     dependencies = {
       "ibhagwan/fzf-lua",
@@ -127,6 +126,7 @@ return {
       heading = {
         position = "overlay", -- 'overlay' заменяет '#' иконкой полностью
       },
+      latex = { enabled = false },
     },
   },
 }

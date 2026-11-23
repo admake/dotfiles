@@ -17,6 +17,32 @@ return {
           append_args = { "-i", "2" },
         },
       })
+
+      opts.sort_formatters = function(formatters, buf)
+        -- prettierd идёт первым для поддерживаемых файлов
+        local ft = vim.bo[buf].filetype
+        local supported = {
+          "yaml",
+          "json",
+          "jsonc",
+          "markdown",
+          "html",
+          "css",
+          "scss",
+          "javascript",
+          "typescript",
+          "tsx",
+          "jsx",
+          "vue",
+          "svelte",
+          "yaml",
+        }
+
+        if vim.tbl_contains(supported, ft) then
+          return { "prettierd" } .. formatters
+        end
+        return formatters
+      end
     end,
   },
 }

@@ -181,3 +181,6 @@ fi
 if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
+
+# Hermes Agent command
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
